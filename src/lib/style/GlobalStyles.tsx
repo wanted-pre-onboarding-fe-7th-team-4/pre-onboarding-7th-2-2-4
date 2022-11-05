@@ -54,6 +54,7 @@ table {
 html{
     font-family: 'Roboto', sans-serif;
     font-size:10px;
+    color:${(props) => props.theme.color.grey_800};
 }
 body{
     font-size:1.5rem;
