@@ -15,7 +15,7 @@ declare module "styled-components" {
       graph_01: string;
       graph_02: string;
       bg_w: string;
-      bg_w2: string;
+      bg_g: string;
     };
   }
 }

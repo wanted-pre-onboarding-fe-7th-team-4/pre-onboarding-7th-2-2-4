@@ -12,6 +12,6 @@ export const theme: DefaultTheme = {
     graph_01: "#4FADF7",
     graph_02: "#85DA47",
     bg_w: "#FFFFFF",
-    bg_w2: "#F6F7F8"
+    bg_g: "#F6F7F8"
   }
 };
