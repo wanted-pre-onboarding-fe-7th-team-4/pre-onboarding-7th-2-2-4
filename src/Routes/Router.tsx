@@ -1,6 +1,7 @@
-import React from "react";
 import MainLayout from "@/Components/Layout/MainLayout";
+import AdManagement from "@/Pages/AdManagement/AdManage";
 import DashBoard from "@/Pages/DashBoard/DashBoard";
+import React from "react";
 import { Route, Routes } from "react-router-dom";
 
 const Router = () => {
@@ -8,7 +9,7 @@ const Router = () => {
     <Routes>
       <Route path="/" element={<MainLayout />}>
         <Route index element={<DashBoard />} />
-        <Route path="ad-manage" />
+        <Route path="ad-manage" element={<AdManagement />} />
       </Route>
     </Routes>
   );

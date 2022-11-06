@@ -1,9 +1,11 @@
 import { AxiosResponse } from "axios";
-import { Daily } from "../state/interface";
+import { FILENAME } from "../constant/constant";
+import { IAdList, Daily } from "../state/interface";
 import { APIInterface } from "./interface";
 
 interface APIServiceProps {
   getDaily: () => Promise<AxiosResponse<Daily>>;
+  getAdList: () => Promise<AxiosResponse<IAdList>>;
 }
 
 class APIService implements APIServiceProps {
@@ -14,7 +16,17 @@ class APIService implements APIServiceProps {
   }
 
   getDaily = async () => {
-    const response = await this.httpClient.fetch("/server/trendDataSet.json");
+    const response = await this.httpClient.fetch(
+      `/server/${FILENAME.TREND_DATA_SET}`
+    );
+
+    return response;
+  };
+
+  getAdList = async () => {
+    const response = await this.httpClient.fetch(
+      `/server/${FILENAME.AD_LIST_DATA_SET}`
+    );
 
     return response;
   };
