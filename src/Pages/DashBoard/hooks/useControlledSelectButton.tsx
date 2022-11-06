@@ -1,9 +1,17 @@
 import { DATA_KEYS } from "@/lib/constant/constant";
-import React, { useEffect, useState } from "react";
+import {
+  firstDataSortKeyAtom,
+  secondDataSortKeyAtom
+} from "@/lib/state/selector";
+import React, { useEffect } from "react";
+import { useRecoilState } from "recoil";
 
 const useControlledSelectButton = () => {
-  const [firstDataSortKey, setFirstDataSortKey] = useState("ROAS");
-  const [secondDataSortKey, setSecondDataSortKey] = useState("선택");
+  const [firstDataSortKey, setFirstDataSortKey] =
+    useRecoilState(firstDataSortKeyAtom);
+  const [secondDataSortKey, setSecondDataSortKey] = useRecoilState(
+    secondDataSortKeyAtom
+  );
 
   const handleChartDataSort =
     (setKey: React.Dispatch<React.SetStateAction<string>>) =>
