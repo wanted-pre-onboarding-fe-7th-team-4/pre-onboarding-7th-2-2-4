@@ -1,30 +1,36 @@
-import {
-  adListLoadingState,
-  adListState,
-  adListSuccessState,
-  fetchAdListSelector
-} from "@/lib/state/adList";
-import { useEffect } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import API, { instance } from "@/lib/api/api";
+import APIService from "@/lib/api/apiService";
+import { IAdList } from "@/lib/state/interface";
+import { useEffect, useState } from "react";
+
+const HTTPClient = new API(instance);
+const apisService = new APIService(HTTPClient);
 
 const useGetAdList = () => {
-  const [adList, setAdList] = useRecoilState(adListState);
-  const fetchedAdList = useRecoilValue(fetchAdListSelector);
-  const [isLoading, setIsLoading] = useRecoilState(adListLoadingState);
-  const [isSuccess, setIsSuccess] = useRecoilState(adListSuccessState);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSuccess, setIsSuccess] = useState<boolean | null>(null);
+  const [adList, setAdList] = useState<IAdList>();
+
+  const handleGetData = async () => {
+    setIsLoading(true);
+    setIsSuccess(null);
+    try {
+      const response = await apisService.getAdList();
+
+      if (response.status === 200) {
+        setTimeout(() => {
+          setIsLoading(false);
+          setIsSuccess(true);
+          setAdList(response.data);
+        }, 3000);
+      }
+    } catch (error) {
+      return error;
+    }
+  };
 
   useEffect(() => {
-    setIsLoading(true);
-    setIsSuccess(false);
-    setTimeout(() => {
-      setAdList(fetchedAdList?.ads);
-      setIsLoading(false);
-      setIsSuccess(true);
-    }, 3000);
-    return () => {
-      setIsLoading(false);
-      setIsSuccess(false);
-    };
+    handleGetData();
   }, []);
 
   return { adList, isLoading, isSuccess };
