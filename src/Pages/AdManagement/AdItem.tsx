@@ -1,4 +1,3 @@
-import Button from "@/Components/Button";
 import { IAdItem } from "@/lib/state/interface";
 import PropTypes from "prop-types";
 import React from "react";
@@ -51,11 +50,14 @@ export default function AdItem({ adItem }: Props) {
       </AdDataList>
       {isEdit ? (
         <>
-          <Button text="저장" type="submit" />
-          <Button text="취소" onClick={handleCancel} />
+          <EditButton type="submit">저장</EditButton>
+          <EditButton onClick={handleCancel}>취소</EditButton>
         </>
       ) : (
-        <Button text="수정하기" onClick={handleEdit} />
+        <>
+          <Line></Line>
+          <EditButton onClick={handleEdit}>수정하기</EditButton>
+        </>
       )}
     </AdItemContainer>
   );
@@ -66,19 +68,21 @@ AdItem.propTypes = {
 };
 
 const AdItemContainer = styled.form`
-  width: 300px;
+  width: 305px;
   height: 420px;
-  padding: 40px 20px;
+  padding: 40px 20px 0px 20px;
   border-radius: 10px;
   border: 1px solid ${({ theme }) => theme.color.grey_100};
   background-color: ${({ theme }) => theme.color.bg_w};
+  box-sizing: border-box;
 `;
 
 const AdName = styled.h3`
-  margin: 20px 0px;
+  margin-bottom: 40px;
   font-weight: 700;
   font-size: 16px;
   line-height: 19px;
+  color: ${({ theme }) => theme.color.grey_800};
 `;
 
 const AdDataList = styled.ul`
@@ -109,18 +113,23 @@ const AdDataItem = styled.li`
     line-height: 14px;
     color: ${(props) => props.theme.color.grey_800};
   }
+`;
 
-  input {
-    position: absolute;
-    left: 120px;
-    width: 100px;
-    height: 20px;
-    border: 1px solid ${(props) => props.theme.color.grey_100};
-    border-radius: 5px;
-    background-color: ${(props) => props.theme.color.bg_w};
-    font-weight: 700;
-    font-size: 12px;
-    line-height: 14px;
-    color: ${(props) => props.theme.color.grey_800};
-  }
+const Line = styled.div`
+  height: 1px;
+  width: 265px;
+  background-color: ${({ theme }) => theme.color.grey_50};
+`;
+const EditButton = styled.button`
+  margin-top: 15px;
+  width: 92px;
+  height: 40px;
+  background-color: ${({ theme }) => theme.color.bg_w};
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 16px;
+  color: ${(props) => props.theme.color.grey_800};
+  border: 1px solid ${({ theme }) => theme.color.grey_100};
+  border-radius: 10px;
+  cursor: pointer;
 `;

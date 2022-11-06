@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
 
@@ -28,8 +27,3 @@ const ButtonContainer = styled.button`
   line-height: 16px;
   color: ${(props) => props.theme.color.grey_800};
 `;
-
-Button.propTypes = {
-  text: PropTypes.string.isRequired,
-  bgColor: PropTypes.string
-};

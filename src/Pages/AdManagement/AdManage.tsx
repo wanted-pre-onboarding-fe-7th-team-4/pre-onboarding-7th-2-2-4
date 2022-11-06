@@ -1,34 +1,19 @@
-import Button from "@/Components/Button";
 import ContentHeader from "@/Components/ContentHeader";
 import SelectButton from "@/Components/SelectButton";
-import APIService from "@/lib/api/apiService";
 import { AD_SELECT_BUTTON_ARRAY } from "@/lib/constant/constant";
-import { adListState } from "@/lib/state/adList";
 import { IAdItem } from "@/lib/state/interface";
-import React, { ChangeEvent, useEffect, useState } from "react";
-import { useRecoilState } from "recoil";
+import React, { ChangeEvent, useState } from "react";
 import styled from "styled-components";
+import useGetAdList from "../DashBoard/hooks/useGetAdList";
 import AdItem from "./AdItem";
-import API, { instance } from "@/lib/api/api";
-
-const HTTPClient = new API(instance);
-const apisService = new APIService(HTTPClient);
 
 export default function AdManagement() {
-  const [adList, setAdList] = useRecoilState(adListState);
+  const { adList, isLoading } = useGetAdList();
   const [selectedStatus, setSelectedStatus] = useState("all");
 
   const handleSelectStatus = (e: ChangeEvent<HTMLSelectElement>) => {
     setSelectedStatus(e.target.value);
   };
-
-  useEffect(() => {
-    const getData = async () => {
-      const { data } = await apisService.getAdList();
-      setAdList(data.ads);
-    };
-    getData();
-  }, []);
 
   return (
     <Container>
@@ -44,20 +29,26 @@ export default function AdManagement() {
               );
             })}
           </SelectButton>
-          <Button text="광고 만들기" bgColor="primary_blue" />
+          <AdMakeButton>광고 만들기</AdMakeButton>
         </ButtonContainer>
         <AdList>
-          {adList.map((adItem: IAdItem) => {
-            if (selectedStatus === "all") {
-              return <AdItem adItem={adItem} key={adItem.id} />;
-            } else {
-              return (
-                adItem.status === selectedStatus && (
-                  <AdItem adItem={adItem} key={adItem.id} />
-                )
-              );
-            }
-          })}
+          {isLoading ? (
+            <div>데이터를 가져오는 중입니다.</div>
+          ) : (
+            <>
+              {adList?.ads.map((adItem: IAdItem) => {
+                if (selectedStatus === "all") {
+                  return <AdItem adItem={adItem} key={adItem.id} />;
+                } else {
+                  return (
+                    adItem.status === selectedStatus && (
+                      <AdItem adItem={adItem} key={adItem.id} />
+                    )
+                  );
+                }
+              })}
+            </>
+          )}
         </AdList>
       </AdBoard>
     </Container>
@@ -66,16 +57,21 @@ export default function AdManagement() {
 
 const Container = styled.div`
   padding: 2.1rem 4rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const AdBoard = styled.div`
+  width: 1039px;
   margin-top: 30px;
-  padding: 30px;
+  padding: 40px;
   background-color: ${({ theme }) => theme.color.bg_w};
   display: flex;
   flex-direction: column;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.04);
   border-radius: 20px;
+  box-sizing: border-box;
 `;
 
 const AdList = styled.ul`
@@ -96,4 +92,16 @@ const ButtonContainer = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+`;
+
+const AdMakeButton = styled.button`
+  width: 108px;
+  height: 40px;
+  background-color: ${({ theme }) => theme.color.primary};
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 16px;
+  color: ${(props) => props.theme.color.bg_w};
+  border: none;
+  border-radius: 10px;
 `;
