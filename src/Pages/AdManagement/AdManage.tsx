@@ -1,4 +1,3 @@
-import Button from "@/Components/Button";
 import ContentHeader from "@/Components/ContentHeader";
 import SelectButton from "@/Components/SelectButton";
 import APIService from "@/lib/api/apiService";
@@ -44,7 +43,7 @@ export default function AdManagement() {
               );
             })}
           </SelectButton>
-          <Button text="광고 만들기" bgColor="primary_blue" />
+          <AdMakeButton>광고 만들기</AdMakeButton>
         </ButtonContainer>
         <AdList>
           {adList.map((adItem: IAdItem) => {
@@ -66,16 +65,21 @@ export default function AdManagement() {
 
 const Container = styled.div`
   padding: 2.1rem 4rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const AdBoard = styled.div`
+  width: 1039px;
   margin-top: 30px;
-  padding: 30px;
+  padding: 40px;
   background-color: ${({ theme }) => theme.color.bg_w};
   display: flex;
   flex-direction: column;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.04);
   border-radius: 20px;
+  box-sizing: border-box;
 `;
 
 const AdList = styled.ul`
@@ -96,4 +100,16 @@ const ButtonContainer = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+`;
+
+const AdMakeButton = styled.button`
+  width: 108px;
+  height: 40px;
+  background-color: ${({ theme }) => theme.color.primary};
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 16px;
+  color: ${(props) => props.theme.color.bg_w};
+  border: none;
+  border-radius: 10px;
 `;
