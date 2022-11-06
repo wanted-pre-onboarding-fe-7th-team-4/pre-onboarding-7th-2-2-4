@@ -7,12 +7,17 @@ import useMapDashBoardData from "./hooks/useMapDashBoradData";
 
 import useControlledSelectButton from "./hooks/useControlledSelectButton";
 import useMapGraphData from "./hooks/useMapGraphData";
-import { DATA_KEYS } from "@/lib/constant/constant";
+import { DATA_KEYS, SECOND_DATA_KEYS } from "@/lib/constant/constant";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { dailyAtom } from "@/lib/state/daily";
 import { dateAtom } from "@/lib/state/date";
 import { Daily } from "@/lib/state/interface";
+<<<<<<< HEAD
 import AdInfoList from "./AdInfoList";
+=======
+import { ReactComponent as BlueDot } from "../../Components/assets/BlueDot.svg";
+import { ReactComponent as GreenDot } from "../../Components/assets/GreenDot.svg";
+>>>>>>> e46e1028d3c9995faa4eaa6df24d75e4d4ddaac7
 
 const DashBoardContents = () => {
   const date = useRecoilValue(dateAtom);
@@ -21,6 +26,7 @@ const DashBoardContents = () => {
   const { daily, isLoading, isSuccess } = useGetDaily();
   const { dashBoard, mappingDailyData } = useMapDashBoardData();
   const { chartState, mappingCategories, mappingSeries } = useMapGraphData();
+
   const {
     firstDataSortKey,
     secondDataSortKey,
@@ -93,34 +99,50 @@ const DashBoardContents = () => {
           <>
             <AdInfoList dashBoardData={dashBoard} />
             <GraphContainer>
-              <ChartDataSortButton
-                onChange={handleChartDataSort(setFirstDataSortKey)}
-                value={firstDataSortKey}
-              >
-                <ChartSelectorGroup>
-                  {DATA_KEYS.map((value) => (
-                    <DataSortOption key={value} value={value}>
-                      {value}
-                    </DataSortOption>
-                  ))}
-                </ChartSelectorGroup>
-              </ChartDataSortButton>
-              <ChartDataSortButton
-                onChange={handleChartDataSort(setSecondDataSortKey)}
-                value={secondDataSortKey}
-              >
-                <ChartSelectorGroup>
-                  {DATA_KEYS.map((value) => (
-                    <DataSortOption
-                      key={value}
-                      value={value}
-                      disabled={value === firstDataSortKey}
+              <SelectContainer>
+                <LeftContainer>
+                  <SelectBox>
+                    <BlueDot />
+                    <ChartDataSortButton
+                      onChange={handleChartDataSort(setFirstDataSortKey)}
+                      value={firstDataSortKey}
                     >
-                      {value}
-                    </DataSortOption>
-                  ))}
-                </ChartSelectorGroup>
-              </ChartDataSortButton>
+                      <ChartSelectorGroup>
+                        {DATA_KEYS.map((value) => (
+                          <DataSortOption key={value} value={value}>
+                            {value}
+                          </DataSortOption>
+                        ))}
+                      </ChartSelectorGroup>
+                    </ChartDataSortButton>
+                  </SelectBox>
+                  <SelectBox>
+                    <GreenDot />
+                    <ChartDataSortButton
+                      onChange={handleChartDataSort(setSecondDataSortKey)}
+                      value={secondDataSortKey}
+                    >
+                      <ChartSelectorGroup>
+                        {SECOND_DATA_KEYS.map((value) => (
+                          <DataSortOption
+                            key={value}
+                            value={value}
+                            disabled={value === firstDataSortKey}
+                          >
+                            {value}
+                          </DataSortOption>
+                        ))}
+                      </ChartSelectorGroup>
+                    </ChartDataSortButton>
+                  </SelectBox>
+                </LeftContainer>
+                <RithgContainer>
+                  <select name="" id="">
+                    <option value="ROAS">주간</option>
+                    <option value="">일/별</option>
+                  </select>
+                </RithgContainer>
+              </SelectContainer>
               <Chart
                 type="line"
                 width="100%"
@@ -155,6 +177,54 @@ const DashBoardContainer = styled.div`
 `;
 
 const GraphContainer = styled.div``;
+
+const SelectContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const LeftContainer = styled.div`
+  display: flex;
+  gap: 10px;
+`;
+
+const RithgContainer = styled.div`
+  select {
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+
+    /* grey_800 */
+
+    color: #3a474e;
+  }
+`;
+
+const SelectBox = styled.div`
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  /* grey_100 */
+
+  border: 1px solid #d1d8dc;
+  border-radius: 10px;
+  padding: 12px 16px;
+  gap: 10px;
+
+  select {
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+
+    /* grey_800 */
+
+    color: #3a474e;
+  }
+`;
 
 const ChartDataSortButton = styled.select``;
 
