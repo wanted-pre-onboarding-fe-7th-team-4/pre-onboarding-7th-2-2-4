@@ -7,14 +7,41 @@ interface ChartState {
   series: ApexOptions["series"];
 }
 
+const initailYaxis: ApexYAxis[] = [
+  {
+    axisTicks: {
+      show: true
+    },
+    axisBorder: {
+      show: true,
+      color: "#4FADF7"
+    }
+  },
+  {
+    opposite: true,
+    axisTicks: {
+      show: true
+    },
+    axisBorder: {
+      show: true,
+      color: "#85DA47"
+    }
+  }
+];
+
 const state: ChartState = {
   options: {
     chart: {
       id: "advertisement-line-chart"
     },
+    yaxis: initailYaxis,
     xaxis: {
       categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999]
-    }
+    },
+    dataLabels: {
+      enabled: false
+    },
+    colors: ["#4FADF7", "#85DA47"]
   },
   series: [
     {
@@ -27,6 +54,7 @@ const state: ChartState = {
 interface SeriesName {
   name: string;
   value: DailyKeySet;
+  unit: "%" | "원" | "회";
 }
 
 const useMapGraphData = () => {
@@ -46,12 +74,12 @@ const useMapGraphData = () => {
 
   const changeDataKeyNameToDataSetName = (name: string) => {
     const seriesName: SeriesName[] = [
-      { name: "ROAS", value: "roas" },
-      { name: "광고비", value: "cost" },
-      { name: "노출 수", value: "imp" },
-      { name: "클릭수", value: "click" },
-      { name: "전환 수", value: "conv" },
-      { name: "매출", value: "convValue" }
+      { name: "ROAS", value: "roas", unit: "%" },
+      { name: "광고비", value: "cost", unit: "원" },
+      { name: "노출 수", value: "imp", unit: "회" },
+      { name: "클릭수", value: "click", unit: "회" },
+      { name: "전환 수", value: "conv", unit: "회" },
+      { name: "매출", value: "convValue", unit: "원" }
     ];
 
     return seriesName.find((value) => value.name === name);
@@ -75,7 +103,6 @@ const useMapGraphData = () => {
         return Math.floor(value[valueName]);
       });
   };
-
   const mappingSeries = (
     data: Daily,
     firstDataSortKey: string,
@@ -85,12 +112,42 @@ const useMapGraphData = () => {
     const secondDataSet = changeDataKeyNameToDataSetName(secondDataSortKey);
 
     if (firstDataSet && secondDataSet) {
-      const { name: firstName, value: firstValue } = firstDataSet;
-      const { name: secondName, value: secondValue } = secondDataSet;
+      const {
+        name: firstName,
+        value: firstValue,
+        unit: firstUnit
+      } = firstDataSet;
+      const {
+        name: secondName,
+        value: secondValue,
+        unit: secondUnit
+      } = secondDataSet;
       const firstDataSeries = map(data, firstValue);
       const secondDataSeries = map(data, secondValue);
       setChartState((pre) => ({
-        ...pre,
+        options: {
+          ...pre.options,
+          yaxis: [
+            {
+              ...initailYaxis[0],
+              labels: {
+                formatter(val) {
+                  return val + firstUnit;
+                }
+              }
+            },
+            {
+              ...initailYaxis[1],
+              opposite: true,
+              labels: {
+                formatter(val) {
+                  console.log({ val });
+                  return val + secondUnit;
+                }
+              }
+            }
+          ]
+        },
         series: [
           { name: firstName, data: firstDataSeries },
           { name: secondName, data: secondDataSeries }
@@ -99,6 +156,8 @@ const useMapGraphData = () => {
     }
   };
 
+  // 날짜가 변경됐을 때 mappingCategories
+  // mappingSeries
   return { chartState, mappingCategories, mappingSeries };
 };
 
