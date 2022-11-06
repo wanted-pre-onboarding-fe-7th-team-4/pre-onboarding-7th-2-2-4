@@ -12,6 +12,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { dailyAtom } from "@/lib/state/daily";
 import { dateAtom } from "@/lib/state/date";
 import { Daily } from "@/lib/state/interface";
+import AdInfoList from "./AdInfoList";
 import { ReactComponent as BlueDot } from "../../Components/assets/BlueDot.svg";
 import { ReactComponent as GreenDot } from "../../Components/assets/GreenDot.svg";
 
@@ -93,22 +94,7 @@ const DashBoardContents = () => {
           <div>데이터를 가져오는 중입니다.</div>
         ) : (
           <>
-            <ADInfoList>
-              {dashBoard?.map((value) => (
-                <ADInfoItem key={value.name}>
-                  <h5>{value.name}</h5>
-                  <div>
-                    <span>{value.value}</span>
-                  </div>
-                  <div>
-                    <span>{value.beforeThreeDayValue}</span>
-                  </div>
-                  <div>
-                    <span>{value.isDecrese}</span>
-                  </div>
-                </ADInfoItem>
-              ))}
-            </ADInfoList>
+            <AdInfoList dashBoardData={dashBoard} />
             <GraphContainer>
               <SelectContainer>
                 <LeftContainer>
@@ -185,24 +171,6 @@ const DashBoardContainer = styled.div`
   background-color: ${(props) => props.theme.color.bg_w};
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.04);
   border-radius: 2rem;
-`;
-
-const ADInfoList = styled.ul`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2.2rem;
-  margin-bottom: 4.2rem;
-`;
-const ADInfoItem = styled.li`
-  h5 {
-    font-size: 1.2rem;
-    font-weight: 500;
-    color: ${(props) => props.theme.color.grey_300};
-    margin-bottom: 1rem;
-  }
-  padding: 1.8rem 4rem;
-  border: 0.5px solid ${(props) => props.theme.color.grey_50};
-  border-radius: 10px;
 `;
 
 const GraphContainer = styled.div``;

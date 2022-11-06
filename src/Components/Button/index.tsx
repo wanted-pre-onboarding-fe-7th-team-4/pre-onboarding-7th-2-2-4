@@ -1,11 +1,17 @@
 import React from "react";
 import styled from "styled-components";
 
-interface Props {
+interface Props extends React.HTMLAttributes<HTMLButtonElement> {
   text: string;
+  type?: "button" | "submit" | "reset";
+  onClick?: () => void;
 }
-export default function Button({ text }: Props) {
-  return <ButtonContainer>{text}</ButtonContainer>;
+export default function Button({ text, type, onClick }: Props) {
+  return (
+    <ButtonContainer type={type} onClick={onClick}>
+      {text}
+    </ButtonContainer>
+  );
 }
 
 const ButtonContainer = styled.button`

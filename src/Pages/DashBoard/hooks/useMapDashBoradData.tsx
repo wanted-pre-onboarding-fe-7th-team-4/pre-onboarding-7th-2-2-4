@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import { Daily } from "@/lib/state/interface";
 
-interface DashBoardData {
+export interface DashBoardData {
   name: string;
   value: string;
   beforeThreeDayValue: string;
