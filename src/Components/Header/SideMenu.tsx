@@ -5,7 +5,7 @@ import { LeverBI } from "../assets/LeverBI";
 import ComboBox from "../ComboBox";
 import Svg from "../Svg";
 
-const Header = () => {
+const SideMenu = () => {
   return (
     <Container>
       <SVGIconContainer>
@@ -63,9 +63,9 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default SideMenu;
 
-const Container = styled.header`
+const Container = styled.nav`
   background-color: ${(props) => props.theme.color.bg_w};
   padding: 0 40px 40px 40px;
   box-shadow: 4px 0px 10px rgba(0, 0, 0, 0.04);
