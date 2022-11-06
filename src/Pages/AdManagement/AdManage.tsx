@@ -1,15 +1,17 @@
 import ContentHeader from "@/Components/ContentHeader";
 import SelectButton from "@/Components/SelectButton";
 import { AD_SELECT_BUTTON_ARRAY } from "@/lib/constant/constant";
+import { adListStatusState } from "@/lib/state/adList";
 import { IAdItem } from "@/lib/state/interface";
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent } from "react";
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import useGetAdList from "../DashBoard/hooks/useGetAdList";
 import AdItem from "./AdItem";
 
 export default function AdManagement() {
   const { adList, isLoading } = useGetAdList();
-  const [selectedStatus, setSelectedStatus] = useState("all");
+  const [selectedStatus, setSelectedStatus] = useRecoilState(adListStatusState);
 
   const handleSelectStatus = (e: ChangeEvent<HTMLSelectElement>) => {
     setSelectedStatus(e.target.value);
