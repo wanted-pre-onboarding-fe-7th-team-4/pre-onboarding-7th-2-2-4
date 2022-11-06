@@ -6,6 +6,11 @@ import { IAdItem, IAdList } from "./interface";
 const HTTPClient = new API(instance);
 const apisService = new APIService(HTTPClient);
 
+export const adListStatusState = atom({
+  key: "status",
+  default: "all"
+});
+
 export const adListState = atom<IAdItem[]>({
   key: "adList",
   default: []
