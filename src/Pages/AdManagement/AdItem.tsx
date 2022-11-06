@@ -15,7 +15,9 @@ export default function AdItem({ adItem }: Props) {
     handleEdit,
     handleCancel,
     handleSubmit,
-    renderAdItemSpan
+    renderAdItemSpan,
+    renderAdItemCheck,
+    renderDatePicker
   } = useAdItemEdit(adItem);
   return (
     <AdItemContainer onSubmit={handleSubmit}>
@@ -25,11 +27,11 @@ export default function AdItem({ adItem }: Props) {
       <AdDataList>
         <AdDataItem>
           <p>상태</p>
-          {renderAdItemSpan("status", editAdItem.status, isEdit, true)}
+          {renderAdItemCheck("status", editAdItem.status, isEdit)}
         </AdDataItem>
         <AdDataItem>
           <p>광고생성일</p>
-          {renderAdItemSpan("startDate", editAdItem.startDate, isEdit)}
+          {renderDatePicker(editAdItem.startDate, isEdit)}
         </AdDataItem>
         <AdDataItem>
           <p>일 희망 예상</p>
@@ -113,6 +115,21 @@ const AdDataItem = styled.li`
     line-height: 14px;
     color: ${(props) => props.theme.color.grey_800};
   }
+
+  .react-datepicker-wrapper {
+    position: absolute;
+    left: 123px;
+    width: 100px;
+    height: 40px;
+  }
+
+  .react-datepicker__input-container {
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+  }
 `;
 
 const Line = styled.div`
@@ -120,6 +137,7 @@ const Line = styled.div`
   width: 265px;
   background-color: ${({ theme }) => theme.color.grey_50};
 `;
+
 const EditButton = styled.button`
   margin-top: 15px;
   width: 92px;
@@ -132,4 +150,5 @@ const EditButton = styled.button`
   border: 1px solid ${({ theme }) => theme.color.grey_100};
   border-radius: 10px;
   cursor: pointer;
+  margin-right: 10px;
 `;
