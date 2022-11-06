@@ -24,7 +24,7 @@ export default function AdItem({ adItem }: Props) {
           <span>{startDate}</span>
         </AdDataItem>
         <AdDataItem>
-          <p>일 희망 예상</p>
+          <p>일 희망 예산</p>
           <span>{budget}</span>
         </AdDataItem>
         <AdDataItem>
