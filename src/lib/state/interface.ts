@@ -27,3 +27,23 @@ export type DailyKeySet =
   | "cpc"
   | "cpa"
   | "roas";
+
+export interface IAdItem {
+  id: number;
+  adType: "web" | "app";
+  title: string;
+  budget: number;
+  status: "active" | "ended";
+  startDate: string;
+  endDate: string | null;
+  report: {
+    cost: number;
+    convValue: number;
+    roas: number;
+  };
+}
+
+export interface IAdList {
+  count: 4;
+  ads: IAdItem[];
+}
