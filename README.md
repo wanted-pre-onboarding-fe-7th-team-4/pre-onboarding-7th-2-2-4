@@ -2,7 +2,7 @@
 
 ## 배포 링크
 
-[어플리케이션 바로가기](https://pre-onboarding-7th-2-1-4-five.vercel.app/)
+[어플리케이션 바로가기](https://pre-onboarding-7th-2-2-4-vv9dr45j2-wanted-4th.vercel.app/)
 
 # 팀 소개
 
