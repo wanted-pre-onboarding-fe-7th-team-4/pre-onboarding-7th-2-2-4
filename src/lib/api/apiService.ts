@@ -1,7 +1,9 @@
+import { AxiosResponse } from "axios";
+import { Daily } from "../state/interface";
 import { APIInterface } from "./interface";
 
 interface APIServiceProps {
-  getDaily: () => Promise<any>;
+  getDaily: () => Promise<AxiosResponse<Daily>>;
 }
 
 class APIService implements APIServiceProps {
@@ -13,7 +15,8 @@ class APIService implements APIServiceProps {
 
   getDaily = async () => {
     const response = await this.httpClient.fetch("/server/trendDataSet.json");
-    return response.data;
+
+    return response;
   };
 }
 

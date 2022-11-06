@@ -5,11 +5,10 @@ import DashBoardTitleSelectDateContainer from "./DashBoardTitleSelectDateContain
 import DashBoardHeader from "./DashBoardUserStateContainer";
 
 const DashBoard = () => {
-  const date = new Date();
   return (
     <Container>
       <DashBoardHeader />
-      <DashBoardTitleSelectDateContainer date={date} />
+      <DashBoardTitleSelectDateContainer />
       <DashBoardContents />
     </Container>
   );

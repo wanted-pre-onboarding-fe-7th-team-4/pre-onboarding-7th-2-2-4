@@ -1,15 +1,15 @@
-# TypeScript Vite with husky
+# TypeScript CRA with husky
 
 ## 설치
 
 ```shell
-yarn install
+npm install
 ```
 
 ## 실행
 
 ```shell
-yarn start
+npm start
 ```
 
 ## husky script
@@ -35,49 +35,37 @@ yarn start
 
 ## eslint 설정
 
-```js
-// .eslintrc.cjs
-module.exports = {
-  parser: "@typescript-eslint/parser",
-  parserOptions: {
-    ecmaFeatures: {
-      jsx: true
-    },
-    ecmaVersion: "latest",
-    sourceType: "module"
+```json
+// .eslintrc.json
+{
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "node": true
   },
-  plugins: ["react", "@typescript-eslint", "prettier"],
-  extends: [
+  "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:prettier/recommended"
   ],
-  env: {
-    browser: true,
-    es2021: true,
-    node: true
+  "overrides": [],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module"
   },
-  rules: {
-    "@typescript-eslint/no-non-null-assertion": "off",
-    "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/no-unused-vars": ["error", { varsIgnorePattern: "_" }],
-    "react/react-in-jsx-scope": "off",
+  "plugins": ["react", "@typescript-eslint"],
+  "rules": {
     "no-var": "error",
     "no-multiple-empty-lines": "error",
-    "no-console": ["warn", { allow: ["warn", "error", "info"] }],
-    eqeqeq: "error",
+    "no-console": ["error", { "allow": ["warn", "error", "info"] }],
+    "eqeqeq": "error",
     "dot-notation": "warn",
-    "no-unused-vars": "off",
-    quotes: ["error", "double"],
-    "prettier/prettier": [
-      "error",
-      {
-        endOfLine: "auto"
-      }
-    ]
+    "no-unused-vars": "error",
+    "quotes": ["error", "double"]
   }
-};
+}
 ```
 
 ## 절대경로 설정
@@ -86,34 +74,21 @@ module.exports = {
 
 ```json
 "baseUrl": ".",
-    "paths": {
-      "@/*": [
-        "src/*"
-      ],
-      "@components/*": ["src/components/*"]
-    }
+"paths": {
+    "@/*": ["src/*"]
+}
 ```
 
-### vite.config.ts
+### config-overrides.js
 
 ```js
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import tsconfigPaths from "vite-tsconfig-paths";
-import { resolve } from "path";
+/* eslint-disable @typescript-eslint/no-var-requires */
+const { addWebpackAlias, override } = require("customize-cra");
+const path = require("path");
 
-// https://vitejs.dev/config/
-export default defineConfig({
-  resolve: {
-    alias: [
-      { find: "@", replacement: resolve(__dirname, "src") },
-      {
-        find: "@components",
-        replacement: resolve(__dirname, "src/components")
-      }
-    ]
-  },
-
-  plugins: [react(), tsconfigPaths()]
-});
+module.exports = override(
+  addWebpackAlias({
+    "@": path.resolve(__dirname, "src")
+  })
+);
 ```

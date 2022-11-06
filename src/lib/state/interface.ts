@@ -15,3 +15,15 @@ export interface Daily {
     }[];
   };
 }
+
+export type DailyKeySet =
+  | "imp"
+  | "click"
+  | "cost"
+  | "conv"
+  | "convValue"
+  | "ctr"
+  | "cvr"
+  | "cpc"
+  | "cpa"
+  | "roas";
