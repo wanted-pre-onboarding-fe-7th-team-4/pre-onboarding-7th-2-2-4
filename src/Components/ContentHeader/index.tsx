@@ -16,6 +16,7 @@ export default function ContentHeader({ title }: Props) {
 
 const ContentHeaderContainer = styled.div`
   display: flex;
+  width: 100%;
   align-items: center;
   height: 80px;
   h3 {

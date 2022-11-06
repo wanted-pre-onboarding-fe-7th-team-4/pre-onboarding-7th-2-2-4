@@ -18,6 +18,7 @@ export default function SelectButton({ onChange, children, value }: Props) {
 const SelectContainer = styled.select`
   width: 123px;
   height: 40px;
+  padding-left: 10px;
   margin-right: 10px;
   border: 1px solid ${(props) => props.theme.color.grey_100};
   border-radius: 10px;
@@ -25,6 +26,7 @@ const SelectContainer = styled.select`
   font-size: 14px;
   line-height: 16px;
   color: ${(props) => props.theme.color.grey_800};
+  cursor: pointer;
 `;
 
 SelectButton.propTypes = {
