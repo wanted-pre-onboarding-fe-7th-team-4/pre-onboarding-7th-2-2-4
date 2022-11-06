@@ -36,7 +36,7 @@ export default function AdManagement() {
             <div>데이터를 가져오는 중입니다.</div>
           ) : (
             <>
-              {adList.map((adItem: IAdItem) => {
+              {adList?.map((adItem: IAdItem) => {
                 if (selectedStatus === "all") {
                   return <AdItem adItem={adItem} key={adItem.id} />;
                 } else {
