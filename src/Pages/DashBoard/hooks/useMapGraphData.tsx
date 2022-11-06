@@ -7,6 +7,12 @@ interface ChartState {
   series: ApexOptions["series"];
 }
 
+interface SeriesName {
+  name: string;
+  value: DailyKeySet;
+  unit: "%" | "원" | "회" | "";
+}
+
 const initailYaxis: ApexYAxis[] = [
   {
     axisTicks: {
@@ -29,35 +35,50 @@ const initailYaxis: ApexYAxis[] = [
   }
 ];
 
-const state: ChartState = {
-  options: {
-    chart: {
-      id: "advertisement-line-chart"
-    },
-    yaxis: initailYaxis,
-    xaxis: {
-      categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999]
-    },
-    dataLabels: {
-      enabled: false
-    },
-    colors: ["#4FADF7", "#85DA47"]
-  },
-  series: [
-    {
-      name: "series-1",
-      data: [30, 40, 45, 50, 49, 60, 70, 91]
-    }
-  ]
-};
-
-interface SeriesName {
-  name: string;
-  value: DailyKeySet;
-  unit: "%" | "원" | "회";
-}
-
 const useMapGraphData = () => {
+  const state: ChartState = {
+    options: {
+      chart: {
+        id: "advertisement-line-chart"
+      },
+      xaxis: {
+        categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999]
+      },
+      yaxis: [
+        {
+          axisTicks: {
+            show: true
+          },
+          axisBorder: {
+            show: true,
+            color: "#4FADF7"
+          }
+        },
+        {
+          opposite: true,
+          axisTicks: {
+            show: true
+          },
+          axisBorder: {
+            show: true,
+            color: "#85DA47"
+          }
+        }
+      ],
+      dataLabels: {
+        enabled: false
+      },
+      colors: ["#4FADF7", "#85DA47"]
+    },
+
+    series: [
+      {
+        name: "series-1",
+        data: [30, 40, 45, 50, 49, 60, 70, 91]
+      }
+    ]
+  };
+
   const [chartState, setChartState] = useState<ChartState>(state);
 
   const mappingCategories = (data: Daily) => {
@@ -74,6 +95,7 @@ const useMapGraphData = () => {
 
   const changeDataKeyNameToDataSetName = (name: string) => {
     const seriesName: SeriesName[] = [
+      { name: "선택", value: "opt", unit: "" },
       { name: "ROAS", value: "roas", unit: "%" },
       { name: "광고비", value: "cost", unit: "원" },
       { name: "노출 수", value: "imp", unit: "회" },
@@ -88,6 +110,7 @@ const useMapGraphData = () => {
   const map = (data: Daily, valueName: DailyKeySet) => {
     return data.report.daily
       .map((value) => ({
+        opt: 0,
         imp: value.imp,
         click: value.click,
         cost: value.cost,
@@ -141,7 +164,6 @@ const useMapGraphData = () => {
               opposite: true,
               labels: {
                 formatter(val) {
-                  console.log({ val });
                   return val + secondUnit;
                 }
               }
