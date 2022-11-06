@@ -51,7 +51,7 @@ AdItem.propTypes = {
 };
 
 const AdItemContainer = styled.div`
-  width: 500px;
+  width: 300px;
   height: 420px;
   padding: 40px 20px;
   border-radius: 10px;
