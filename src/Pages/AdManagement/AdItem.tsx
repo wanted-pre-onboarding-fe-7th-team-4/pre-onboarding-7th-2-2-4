@@ -2,10 +2,13 @@ import Button from "@/Components/Button";
 import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
+import { IAdItem } from "@/lib/state/interface";
 
-export default function AdItem({ adItem }) {
-  console.log(adItem);
-  const { adType, title, budget, status, startDate, endDate, report } = adItem;
+interface Props {
+  adItem: IAdItem;
+}
+export default function AdItem({ adItem }: Props) {
+  const { adType, title, budget, status, startDate, report } = adItem;
   const { cost, convValue, roas } = report;
   return (
     <AdItemContainer>

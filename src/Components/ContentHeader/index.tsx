@@ -2,7 +2,10 @@ import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
 
-export default function ContentHeader({ title }) {
+interface Props {
+  title: string;
+}
+export default function ContentHeader({ title }: Props) {
   return (
     <ContentHeaderContainer>
       <h3>{title}</h3>

@@ -2,7 +2,10 @@ import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
 
-export default function Button({ bgColor, text }) {
+interface Props {
+  text: string;
+}
+export default function Button({ text }: Props) {
   return <ButtonContainer>{text}</ButtonContainer>;
 }
 

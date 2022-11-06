@@ -5,7 +5,7 @@ import APIService from "@/lib/api/apiService";
 import { AD_SELECT_BUTTON_ARRAY } from "@/lib/constant/constant";
 import { adListState } from "@/lib/state/adList";
 import { IAdItem } from "@/lib/state/interface";
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import AdItem from "./AdItem";
@@ -18,7 +18,7 @@ export default function AdManagement() {
   const [adList, setAdList] = useRecoilState(adListState);
   const [selectedStatus, setSelectedStatus] = useState("all");
 
-  const handleSelectStatus = (e) => {
+  const handleSelectStatus = (e: ChangeEvent<HTMLSelectElement>) => {
     setSelectedStatus(e.target.value);
   };
 

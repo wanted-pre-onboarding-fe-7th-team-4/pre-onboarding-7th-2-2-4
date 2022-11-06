@@ -1,8 +1,13 @@
 import PropTypes from "prop-types";
-import React from "react";
 import styled from "styled-components";
+import React, { ChangeEvent } from "react";
 
-export default function SelectButton({ onChange, children, value }) {
+interface Props {
+  onChange: (e: ChangeEvent<HTMLSelectElement>) => void;
+  value: string;
+  children: React.ReactNode;
+}
+export default function SelectButton({ onChange, children, value }: Props) {
   return (
     <SelectContainer onChange={onChange} value={value}>
       {children}
