@@ -12,13 +12,14 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { dailyAtom } from "@/lib/state/daily";
 import { dateAtom } from "@/lib/state/date";
 import { Daily } from "@/lib/state/interface";
+import InfoCardList from "@/Components/DashBoard/InfoCardList";
 
 const DashBoardContents = () => {
   const date = useRecoilValue(dateAtom);
   const [startDate, endDate] = date;
   const [newDaily, setNewDaily] = useRecoilState(dailyAtom);
   const { daily, isLoading, isSuccess } = useGetDaily();
-  const { dashBoard, mappingDailyData } = useMapDashBoardData();
+  const { dashBoard, mappingDailyData } = useMapDashBoardData(); //
   const { chartState, mappingCategories, mappingSeries } = useMapGraphData();
   const {
     firstDataSortKey,
@@ -90,6 +91,7 @@ const DashBoardContents = () => {
           <div>데이터를 가져오는 중입니다.</div>
         ) : (
           <>
+            <InfoCardList />
             <ADInfoList>
               {dashBoard?.map((value) => (
                 <ADInfoItem key={value.name}>
