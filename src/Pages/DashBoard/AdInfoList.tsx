@@ -11,7 +11,6 @@ const AdInfoList = () => {
     if (currentList && prevList) {
       const data = { selectData: currentList, beforeThreeDay: prevList };
       mappingDailyData(data);
-      console.log(currentList);
     }
   }, [currentList, prevList]);
 

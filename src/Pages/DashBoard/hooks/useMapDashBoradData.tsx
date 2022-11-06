@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import { IDaily } from "@/lib/state/interface";
 
-export interface DashBoardData {
+interface DashBoardData {
   name: string;
   value: string;
   beforeThreeDayValue: string;
@@ -21,7 +21,7 @@ const useMapDashBoardData = () => {
     return Math.floor(
       daily
         .map((value) => value.roas)
-        .reduce((pre, current) => pre + current, 0)
+        .reduce((pre, current) => pre + current / 100, 0)
     );
   };
 
