@@ -1,8 +1,8 @@
 import Button from "@/Components/Button";
+import { IAdItem } from "@/lib/state/interface";
 import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
-import { IAdItem } from "@/lib/state/interface";
 
 interface Props {
   adItem: IAdItem;
@@ -51,13 +51,12 @@ AdItem.propTypes = {
 };
 
 const AdItemContainer = styled.div`
-  width: 305px;
+  width: 500px;
   height: 420px;
-  margin-right: 20px;
-  margin-bottom: 20px;
-  padding: 20px;
-  border: 1px solid ${(props) => props.theme.color.grey_100};
+  padding: 40px 20px;
   border-radius: 10px;
+  border: 1px solid ${({ theme }) => theme.color.grey_100};
+  background-color: ${({ theme }) => theme.color.bg_w};
 `;
 
 const AdName = styled.h3`

@@ -31,7 +31,7 @@ export default function AdManagement() {
   }, []);
 
   return (
-    <>
+    <Container>
       <ContentHeader title="광고관리" />
       <AdBoard>
         <ButtonContainer>
@@ -60,29 +60,40 @@ export default function AdManagement() {
           })}
         </AdList>
       </AdBoard>
-    </>
+    </Container>
   );
 }
 
+const Container = styled.div`
+  padding: 2.1rem 4rem 2rem;
+`;
+
 const AdBoard = styled.div`
-  width: 1039px;
-  height: 1020px;
-  margin: 20px auto;
-  padding-top: 30px;
-  background: ${(props) => props.theme.color.bg_w};
+  margin-top: 30px;
+  padding: 30px;
+  background-color: ${({ theme }) => theme.color.bg_w};
+  display: flex;
+  flex-direction: column;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.04);
   border-radius: 20px;
 `;
 
 const AdList = styled.ul`
-  display: flex;
-  flex-wrap: wrap;
-  margin: 0 30px;
+  margin-top: 40px;
+  width: calc(100% - 40px);
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+  align-items: center;
+  justify-items: center;
 `;
 
 const ButtonContainer = styled.div`
+  width: 100%;
+  height: 40px;
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin: 30px 50px 30px 30px;
 `;
