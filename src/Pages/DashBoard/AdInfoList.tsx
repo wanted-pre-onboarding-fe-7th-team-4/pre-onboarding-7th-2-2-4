@@ -29,6 +29,7 @@ export const SummaryItemContainer = styled.div`
   display: grid;
   gap: 22px 20px;
   grid-template-columns: 1fr 1fr 1fr;
+  margin-bottom: 42px;
 `;
 export const SummaryItemWrapper = styled.div`
   background: ${(props) => props.theme.color.bg_w};
