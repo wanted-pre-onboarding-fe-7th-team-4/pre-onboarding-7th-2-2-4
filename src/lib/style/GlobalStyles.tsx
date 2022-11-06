@@ -83,4 +83,7 @@ select{
     outline: none;
     border: none;
 }
+img,image,svg {
+    vertical-align:middle ;
+}
 `;

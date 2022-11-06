@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 
 const useControlledSelectButton = () => {
   const [firstDataSortKey, setFirstDataSortKey] = useState("ROAS");
-  const [secondDataSortKey, setSecondDataSortKey] = useState("광고비");
+  const [secondDataSortKey, setSecondDataSortKey] = useState("선택");
 
   const handleChartDataSort =
     (setKey: React.Dispatch<React.SetStateAction<string>>) =>
