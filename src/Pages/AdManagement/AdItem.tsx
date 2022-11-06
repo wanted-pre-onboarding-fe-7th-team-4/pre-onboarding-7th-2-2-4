@@ -16,6 +16,8 @@ export default function AdItem({ adItem }: Props) {
     handleCancel,
     handleSubmit,
     renderAdItemSpan,
+    renderAdBudgetSpan,
+    renderAdItemSpanDepth2,
     renderAdItemCheck,
     renderDatePicker
   } = useAdItemEdit(adItem);
@@ -34,20 +36,24 @@ export default function AdItem({ adItem }: Props) {
           {renderDatePicker(editAdItem.startDate, isEdit)}
         </AdDataItem>
         <AdDataItem>
-          <p>일 희망 예상</p>
+          <p>일 희망 예산</p>
           {renderAdItemSpan("budget", editAdItem.budget, isEdit)}
         </AdDataItem>
         <AdDataItem>
           <p>광고 수익률</p>
-          {renderAdItemSpan("roas", editAdItem.report.roas, isEdit)}
+          {renderAdBudgetSpan("roas", editAdItem.report.roas, isEdit)}
         </AdDataItem>
         <AdDataItem>
           <p>매출</p>
-          {renderAdItemSpan("convValue", editAdItem.report.convValue, isEdit)}
+          {renderAdItemSpanDepth2(
+            "convValue",
+            editAdItem.report.convValue,
+            isEdit
+          )}
         </AdDataItem>
         <AdDataItem>
           <p>광고 비용</p>
-          {renderAdItemSpan("cost", editAdItem.report.cost, isEdit)}
+          {renderAdItemSpanDepth2("cost", editAdItem.report.cost, isEdit)}
         </AdDataItem>
       </AdDataList>
       {isEdit ? (

@@ -1,11 +1,12 @@
-import DatePicker, { registerLocale } from "react-datepicker";
 import { adListState } from "@/lib/state/adList";
 import { IAdItem } from "@/lib/state/interface";
-import React, { useState } from "react";
-import { useSetRecoilState } from "recoil";
-import ko from "date-fns/locale/ko";
-import "react-datepicker/dist/react-datepicker.css";
+import changeWonUnit from "@/lib/utils/changeWonUnit";
 import { convertStringToCustomString } from "@/lib/utils/convertUTCTimeToCustomString";
+import ko from "date-fns/locale/ko";
+import React, { useState } from "react";
+import DatePicker, { registerLocale } from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
 
 registerLocale("ko", ko);
@@ -31,6 +32,17 @@ const useAdItemEdit = (adItem: IAdItem) => {
       ...prev,
       [name]: value
     }));
+  };
+
+  const handleChangeDepth2 = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setEditAdItem({
+      ...editAdItem,
+      report: {
+        ...editAdItem.report,
+        [name]: value
+      }
+    });
   };
 
   const handleCheckChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -69,25 +81,59 @@ const useAdItemEdit = (adItem: IAdItem) => {
     });
   };
 
-  const renderAdItemSpan = (
-    name: string,
-    value: string | number,
-    isEdit: boolean
-  ) => {
-    if (isEdit) {
-      console.log(name, value);
-      return (
-        <AdItemEditInput
-          type="text"
-          name={name}
-          value={value}
-          onChange={handleChange}
-        />
-      );
-    } else {
-      return <span>{value}</span>;
-    }
-  };
+  const renderAdItemSpan = React.useCallback(
+    (name: string, value: string | number, isEdit: boolean) => {
+      if (isEdit) {
+        return (
+          <AdItemEditInput
+            type="text"
+            name={name}
+            value={value}
+            onChange={handleChange}
+          />
+        );
+      } else {
+        return <span>{changeWonUnit(Number(value))}</span>;
+      }
+    },
+    [handleChange, isEdit]
+  );
+
+  const renderAdBudgetSpan = React.useCallback(
+    (name: string, value: string | number, isEdit: boolean) => {
+      if (isEdit) {
+        return (
+          <AdItemEditInput
+            type="text"
+            name={name}
+            value={value}
+            onChange={handleChangeDepth2}
+          />
+        );
+      } else {
+        return <span>{value}%</span>;
+      }
+    },
+    [handleChange, isEdit]
+  );
+
+  const renderAdItemSpanDepth2 = React.useCallback(
+    (name: string, value: string | number, isEdit: boolean) => {
+      if (isEdit) {
+        return (
+          <AdItemEditInput
+            type="text"
+            name={name}
+            value={value}
+            onChange={handleChangeDepth2}
+          />
+        );
+      } else {
+        return <span>{changeWonUnit(Number(value))}</span>;
+      }
+    },
+    [handleChangeDepth2, isEdit]
+  );
 
   const renderAdItemCheck = React.useCallback(
     (name: string, value: string, isEdit: boolean) => {
@@ -134,6 +180,8 @@ const useAdItemEdit = (adItem: IAdItem) => {
     handleCancel,
     handleSubmit,
     renderAdItemSpan,
+    renderAdBudgetSpan,
+    renderAdItemSpanDepth2,
     renderAdItemCheck,
     renderDatePicker
   };
