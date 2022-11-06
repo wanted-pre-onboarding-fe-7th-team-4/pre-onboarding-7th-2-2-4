@@ -19,6 +19,6 @@ export default MainLayout;
 
 const Layout = styled.div`
   display: grid;
-  grid-template-columns: minmax(32rem, 32rem) auto;
+  grid-template-columns: minmax(32rem, 32rem) minmax(102rem, auto);
   min-height: 100vh;
 `;

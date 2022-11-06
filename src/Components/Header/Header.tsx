@@ -24,8 +24,7 @@ const Header = () => {
           <TitleWrapper>
             <Title>광고 센터</Title>
           </TitleWrapper>
-
-          <LinkButton to="/dash-board">
+          <LinkButton to="/">
             <LinkTitle>대시보드</LinkTitle>
           </LinkButton>
 

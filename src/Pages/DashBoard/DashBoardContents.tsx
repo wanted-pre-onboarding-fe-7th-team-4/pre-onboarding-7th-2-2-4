@@ -27,7 +27,7 @@ const DashBoardContents = () => {
   } = useControlledSelectButton();
 
   useEffect(() => {
-    if (daily) {
+    if (daily && date) {
       const findDataIndex = daily.report.daily.findIndex(
         (value) => value.date === date
       );
@@ -41,14 +41,14 @@ const DashBoardContents = () => {
   }, [daily, date]);
 
   useEffect(() => {
-    if (isSuccess && newDaily) {
+    if (isSuccess && Object.keys(newDaily).length !== 0) {
       mappingDailyData(newDaily);
       mappingCategories(newDaily);
     }
   }, [isSuccess, newDaily]);
 
   useEffect(() => {
-    if (newDaily && isSuccess) {
+    if (isSuccess && Object.keys(newDaily).length !== 0) {
       mappingSeries(newDaily, firstDataSortKey, secondDataSortKey);
     }
   }, [newDaily, isSuccess, firstDataSortKey, secondDataSortKey]);
@@ -58,58 +58,61 @@ const DashBoardContents = () => {
       <TitleWrapper>
         <h1>통합 광고 현황</h1>
       </TitleWrapper>
-      {isLoading ? (
-        <div>데이터를 가져오는 중입니다.</div>
-      ) : (
-        <DashBoardContainer>
-          <ADInfoList>
-            {dashBoard?.map((value) => (
-              <ADInfoItem key={value.name}>
-                <h5>{value.name}</h5>
-                <div>
-                  <p>{value.value}</p>
-                </div>
-              </ADInfoItem>
-            ))}
-          </ADInfoList>
-          <GraphContainer>
-            <ChartDataSortButton
-              onChange={handleChartDataSort(setFirstDataSortKey)}
-              value={firstDataSortKey}
-            >
-              <ChartSelectorGroup>
-                {DATA_KEYS.map((value) => (
-                  <DataSortOption key={value} value={value}>
-                    {value}
-                  </DataSortOption>
-                ))}
-              </ChartSelectorGroup>
-            </ChartDataSortButton>
-            <ChartDataSortButton
-              onChange={handleChartDataSort(setSecondDataSortKey)}
-              value={secondDataSortKey}
-            >
-              <ChartSelectorGroup>
-                {DATA_KEYS.map((value) => (
-                  <DataSortOption
-                    key={value}
-                    value={value}
-                    disabled={value === firstDataSortKey}
-                  >
-                    {value}
-                  </DataSortOption>
-                ))}
-              </ChartSelectorGroup>
-            </ChartDataSortButton>
-            <Chart
-              type="line"
-              width="100%"
-              options={chartState.options}
-              series={chartState.series}
-            />
-          </GraphContainer>
-        </DashBoardContainer>
-      )}
+
+      <DashBoardContainer>
+        {isLoading ? (
+          <div>데이터를 가져오는 중입니다.</div>
+        ) : (
+          <>
+            <ADInfoList>
+              {dashBoard?.map((value) => (
+                <ADInfoItem key={value.name}>
+                  <h5>{value.name}</h5>
+                  <div>
+                    <p>{value.value}</p>
+                  </div>
+                </ADInfoItem>
+              ))}
+            </ADInfoList>
+            <GraphContainer>
+              <ChartDataSortButton
+                onChange={handleChartDataSort(setFirstDataSortKey)}
+                value={firstDataSortKey}
+              >
+                <ChartSelectorGroup>
+                  {DATA_KEYS.map((value) => (
+                    <DataSortOption key={value} value={value}>
+                      {value}
+                    </DataSortOption>
+                  ))}
+                </ChartSelectorGroup>
+              </ChartDataSortButton>
+              <ChartDataSortButton
+                onChange={handleChartDataSort(setSecondDataSortKey)}
+                value={secondDataSortKey}
+              >
+                <ChartSelectorGroup>
+                  {DATA_KEYS.map((value) => (
+                    <DataSortOption
+                      key={value}
+                      value={value}
+                      disabled={value === firstDataSortKey}
+                    >
+                      {value}
+                    </DataSortOption>
+                  ))}
+                </ChartSelectorGroup>
+              </ChartDataSortButton>
+              <Chart
+                type="line"
+                width="100%"
+                options={chartState.options}
+                series={chartState.series}
+              />
+            </GraphContainer>
+          </>
+        )}
+      </DashBoardContainer>
     </Container>
   );
 };

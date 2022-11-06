@@ -11,7 +11,6 @@ const useMapDashBoardData = () => {
   const [dashBoard, setDashBoard] = useState<DashBoardData[]>();
 
   const mappingDailyData = (daily: Daily) => {
-    console.log(daily);
     const roas = Math.floor(
       daily.report.daily
         .map((value) => value.roas)

@@ -1,8 +1,8 @@
 import React from "react";
 import DashBoradSquer from "@/Components/Header/DashBoradSquer";
 
-const DashBoardHeader = () => {
-  return <DashBoradSquer>DashBoardHeader</DashBoradSquer>;
+const DashBoardUserStateContainer = () => {
+  return <DashBoradSquer>DashBoardUserStateContainer</DashBoradSquer>;
 };
 
-export default DashBoardHeader;
+export default DashBoardUserStateContainer;

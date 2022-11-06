@@ -8,7 +8,7 @@ const useContorlledDate = () => {
   const [stringDate, setStringDate] = useState<string>("");
   const [selectDate, setSelectDate] = useState<string>("");
 
-  const calculateDate = (time: number) => {
+  const calculateDate = (time: number | string) => {
     const newDate = new Date(time);
     const date = newDate.getDate();
     const month = newDate.getMonth() + 1;
@@ -19,7 +19,11 @@ const useContorlledDate = () => {
     setYear(year);
   };
 
-  const dateToString = (year: number, month: number, date: number) => {
+  const dateToStringForDateFicker = (
+    year: number,
+    month: number,
+    date: number
+  ) => {
     setStringDate(
       `${year}-${month < 10 ? "0" + month : month}-${
         date < 10 ? "0" + date : date
@@ -30,18 +34,24 @@ const useContorlledDate = () => {
 
   useEffect(() => {
     calculateDate(now);
-  }, [now]);
+  }, []);
+
+  useEffect(() => {
+    if (selectDate) {
+      calculateDate(selectDate);
+    }
+  }, [selectDate]);
 
   useEffect(() => {
     if (year && date && month) {
-      dateToString(year, month, date);
+      dateToStringForDateFicker(year, month, date);
     }
   }, [date, month, year]);
 
   return {
     selectDate,
     setSelectDate,
-    dateToString,
+    dateToStringForDateFicker,
     date,
     month,
     year,

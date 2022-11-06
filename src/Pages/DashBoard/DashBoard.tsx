@@ -2,12 +2,12 @@ import React from "react";
 import styled from "styled-components";
 import DashBoardContents from "./DashBoardContents";
 import DashBoardTitleSelectDateContainer from "./DashBoardTitleSelectDateContainer";
-import DashBoardHeader from "./DashBoardUserStateContainer";
+import DashBoardUserStateContainer from "./DashBoardUserStateContainer";
 
 const DashBoard = () => {
   return (
     <Container>
-      <DashBoardHeader />
+      <DashBoardUserStateContainer />
       <DashBoardTitleSelectDateContainer />
       <DashBoardContents />
     </Container>
