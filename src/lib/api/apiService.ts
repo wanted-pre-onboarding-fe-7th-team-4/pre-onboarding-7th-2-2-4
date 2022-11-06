@@ -15,7 +15,7 @@ class APIService implements APIServiceProps {
     this.httpClient = httpClient;
   }
 
-  getDaily = async () => {
+  getDaily: () => Promise<AxiosResponse<Daily>> = async () => {
     const response = await this.httpClient.fetch(
       `/server/${FILENAME.TREND_DATA_SET}`
     );
@@ -23,7 +23,7 @@ class APIService implements APIServiceProps {
     return response;
   };
 
-  getAdList = async () => {
+  getAdList: () => Promise<AxiosResponse<IAdList>> = async () => {
     const response = await this.httpClient.fetch(
       `/server/${FILENAME.AD_LIST_DATA_SET}`
     );

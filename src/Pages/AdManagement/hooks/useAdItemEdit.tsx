@@ -28,10 +28,10 @@ const useAdItemEdit = (adItem: IAdItem) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setEditAdItem({
-      ...editAdItem,
+    setEditAdItem((prev) => ({
+      ...prev,
       [name]: value
-    });
+    }));
   };
 
   const handleChangeDepth2 = (e: React.ChangeEvent<HTMLInputElement>) => {
