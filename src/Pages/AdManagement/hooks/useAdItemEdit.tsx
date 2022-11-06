@@ -27,10 +27,10 @@ const useAdItemEdit = (adItem: IAdItem) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setEditAdItem({
-      ...editAdItem,
+    setEditAdItem((prev) => ({
+      ...prev,
       [name]: value
-    });
+    }));
   };
 
   const handleCheckChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -69,23 +69,25 @@ const useAdItemEdit = (adItem: IAdItem) => {
     });
   };
 
-  const renderAdItemSpan = React.useCallback(
-    (name: string, value: string | number, isEdit: boolean) => {
-      if (isEdit) {
-        return (
-          <AdItemEditInput
-            type="text"
-            name={name}
-            value={value}
-            onChange={handleChange}
-          />
-        );
-      } else {
-        return <span>{value}</span>;
-      }
-    },
-    [handleChange, isEdit]
-  );
+  const renderAdItemSpan = (
+    name: string,
+    value: string | number,
+    isEdit: boolean
+  ) => {
+    if (isEdit) {
+      console.log(name, value);
+      return (
+        <AdItemEditInput
+          type="text"
+          name={name}
+          value={value}
+          onChange={handleChange}
+        />
+      );
+    } else {
+      return <span>{value}</span>;
+    }
+  };
 
   const renderAdItemCheck = React.useCallback(
     (name: string, value: string, isEdit: boolean) => {
