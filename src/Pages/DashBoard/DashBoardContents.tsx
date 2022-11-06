@@ -31,8 +31,6 @@ const DashBoardContents = () => {
     setSecondDataSortKey
   } = useControlledSelectButton();
 
-  console.log(secondDataSortKey, "second");
-
   useEffect(() => {
     if (daily && date && startDate && endDate) {
       const findStartDateIndex = daily.report.daily.findIndex(
