@@ -78,4 +78,8 @@ h1,h2,h3,h4,h5,h6,p{
     word-spacing: -0.3rem;
     word-break: keep-all;
 }
+
+img,image,svg {
+    vertical-align:middle ;
+}
 `;
