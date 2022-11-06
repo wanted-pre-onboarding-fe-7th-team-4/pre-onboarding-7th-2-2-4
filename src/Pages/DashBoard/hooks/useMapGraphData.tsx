@@ -13,6 +13,28 @@ interface SeriesName {
   unit: "%" | "원" | "회" | "";
 }
 
+const initailYaxis: ApexYAxis[] = [
+  {
+    axisTicks: {
+      show: true
+    },
+    axisBorder: {
+      show: true,
+      color: "#4FADF7"
+    }
+  },
+  {
+    opposite: true,
+    axisTicks: {
+      show: true
+    },
+    axisBorder: {
+      show: true,
+      color: "#85DA47"
+    }
+  }
+];
+
 const useMapGraphData = () => {
   const state: ChartState = {
     options: {
@@ -142,7 +164,6 @@ const useMapGraphData = () => {
               opposite: true,
               labels: {
                 formatter(val) {
-                  console.log({ val });
                   return val + secondUnit;
                 }
               }
