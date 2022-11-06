@@ -9,11 +9,13 @@ import useControlledSelectButton from "./hooks/useControlledSelectButton";
 import useMapGraphData from "./hooks/useMapGraphData";
 import { DATA_KEYS } from "@/lib/constant/constant";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { dailyAtom, dateAtom } from "@/lib/state/daily";
+import { dailyAtom } from "@/lib/state/daily";
+import { dateAtom } from "@/lib/state/date";
 import { Daily } from "@/lib/state/interface";
 
 const DashBoardContents = () => {
   const date = useRecoilValue(dateAtom);
+  const [startDate, endDate] = date;
   const [newDaily, setNewDaily] = useRecoilState(dailyAtom);
   const { daily, isLoading, isSuccess } = useGetDaily();
   const { dashBoard, mappingDailyData } = useMapDashBoardData();
@@ -27,48 +29,53 @@ const DashBoardContents = () => {
   } = useControlledSelectButton();
 
   useEffect(() => {
-    if (daily && date) {
-      const findDataIndex = daily.report.daily.findIndex(
-        (value) => value.date === date
+    if (daily && date && startDate && endDate) {
+      const findStartDateIndex = daily.report.daily.findIndex(
+        (value) => value.date === startDate
       );
+      const findEndDateIndex = daily.report.daily.findIndex(
+        (value) => value.date === endDate
+      );
+
       let filterDateForBeforeThreeDays: Daily["report"]["daily"];
-      if (findDataIndex - 3 < 0) {
-        filterDateForBeforeThreeDays = daily.report.daily.slice(findDataIndex);
+      if (findStartDateIndex - 3 < 0) {
+        filterDateForBeforeThreeDays =
+          daily.report.daily.slice(findStartDateIndex);
       } else {
         filterDateForBeforeThreeDays = daily.report.daily.slice(
-          findDataIndex - 3,
-          findDataIndex
+          findStartDateIndex - 3,
+          findStartDateIndex
         );
       }
 
-      const filterDateForSevenDays = daily.report.daily.slice(
-        findDataIndex,
-        findDataIndex + 7
+      const filterDataSelectDate = daily.report.daily.slice(
+        findStartDateIndex,
+        findEndDateIndex
       );
 
       setNewDaily((pre) => ({
         ...pre,
-        week: { report: { daily: filterDateForSevenDays } }
+        selectData: { report: { daily: filterDataSelectDate } }
       }));
       setNewDaily((pre) => ({
-        week: pre.week,
+        selectData: pre.selectData,
         beforeThreeDay: {
           report: { daily: filterDateForBeforeThreeDays }
         }
       }));
     }
-  }, [daily, date]);
+  }, [daily, date, startDate, endDate]);
 
   useEffect(() => {
     if (isSuccess && Object.keys(newDaily).length !== 0) {
       mappingDailyData(newDaily);
-      mappingCategories(newDaily.week);
+      mappingCategories(newDaily.selectData);
     }
   }, [isSuccess, newDaily]);
 
   useEffect(() => {
     if (isSuccess && Object.keys(newDaily).length !== 0) {
-      mappingSeries(newDaily.week, firstDataSortKey, secondDataSortKey);
+      mappingSeries(newDaily.selectData, firstDataSortKey, secondDataSortKey);
     }
   }, [newDaily, isSuccess, firstDataSortKey, secondDataSortKey]);
 
