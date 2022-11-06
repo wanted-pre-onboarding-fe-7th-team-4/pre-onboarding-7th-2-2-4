@@ -12,12 +12,9 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { dailyAtom } from "@/lib/state/daily";
 import { dateAtom } from "@/lib/state/date";
 import { Daily } from "@/lib/state/interface";
-<<<<<<< HEAD
 import AdInfoList from "./AdInfoList";
-=======
 import { ReactComponent as BlueDot } from "../../Components/assets/BlueDot.svg";
 import { ReactComponent as GreenDot } from "../../Components/assets/GreenDot.svg";
->>>>>>> e46e1028d3c9995faa4eaa6df24d75e4d4ddaac7
 
 const DashBoardContents = () => {
   const date = useRecoilValue(dateAtom);
