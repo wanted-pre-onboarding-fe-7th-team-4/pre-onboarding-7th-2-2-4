@@ -1,34 +1,20 @@
 import Button from "@/Components/Button";
 import ContentHeader from "@/Components/ContentHeader";
 import SelectButton from "@/Components/SelectButton";
-import APIService from "@/lib/api/apiService";
 import { AD_SELECT_BUTTON_ARRAY } from "@/lib/constant/constant";
-import { adListState } from "@/lib/state/adList";
 import { IAdItem } from "@/lib/state/interface";
-import React, { ChangeEvent, useEffect, useState } from "react";
-import { useRecoilState } from "recoil";
+import React, { ChangeEvent, useState } from "react";
 import styled from "styled-components";
+import useGetAdList from "../DashBoard/hooks/useGetAdList";
 import AdItem from "./AdItem";
-import API, { instance } from "@/lib/api/api";
-
-const HTTPClient = new API(instance);
-const apisService = new APIService(HTTPClient);
 
 export default function AdManagement() {
-  const [adList, setAdList] = useRecoilState(adListState);
+  const { adList, isLoading } = useGetAdList();
   const [selectedStatus, setSelectedStatus] = useState("all");
 
   const handleSelectStatus = (e: ChangeEvent<HTMLSelectElement>) => {
     setSelectedStatus(e.target.value);
   };
-
-  useEffect(() => {
-    const getData = async () => {
-      const { data } = await apisService.getAdList();
-      setAdList(data.ads);
-    };
-    getData();
-  }, []);
 
   return (
     <>
@@ -47,17 +33,23 @@ export default function AdManagement() {
           <Button text="광고 만들기" bgColor="primary_blue" />
         </ButtonContainer>
         <AdList>
-          {adList.map((adItem: IAdItem) => {
-            if (selectedStatus === "all") {
-              return <AdItem adItem={adItem} key={adItem.id} />;
-            } else {
-              return (
-                adItem.status === selectedStatus && (
-                  <AdItem adItem={adItem} key={adItem.id} />
-                )
-              );
-            }
-          })}
+          {isLoading ? (
+            <div>데이터를 가져오는 중입니다.</div>
+          ) : (
+            <>
+              {adList?.ads.map((adItem: IAdItem) => {
+                if (selectedStatus === "all") {
+                  return <AdItem adItem={adItem} key={adItem.id} />;
+                } else {
+                  return (
+                    adItem.status === selectedStatus && (
+                      <AdItem adItem={adItem} key={adItem.id} />
+                    )
+                  );
+                }
+              })}
+            </>
+          )}
         </AdList>
       </AdBoard>
     </>
