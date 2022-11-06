@@ -2,46 +2,65 @@ import { IAdItem } from "@/lib/state/interface";
 import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
+import useAdItemEdit from "./hooks/useAdItemEdit";
 
 interface Props {
   adItem: IAdItem;
 }
 export default function AdItem({ adItem }: Props) {
-  const { adType, title, budget, status, startDate, report } = adItem;
-  const { cost, convValue, roas } = report;
+  const { adType, title } = adItem;
+  const {
+    isEdit,
+    editAdItem,
+    handleEdit,
+    handleCancel,
+    handleSubmit,
+    renderAdItemSpan,
+    renderAdItemCheck,
+    renderDatePicker
+  } = useAdItemEdit(adItem);
   return (
-    <AdItemContainer>
+    <AdItemContainer onSubmit={handleSubmit}>
       <AdName>
         {adType === "web" ? "웹광고" : "앱광고"}_{title}
       </AdName>
       <AdDataList>
         <AdDataItem>
           <p>상태</p>
-          <span>{status === "active" ? "진행중" : "중단됨"}</span>
+          {renderAdItemCheck("status", editAdItem.status, isEdit)}
         </AdDataItem>
         <AdDataItem>
           <p>광고생성일</p>
-          <span>{startDate}</span>
+          {renderDatePicker(editAdItem.startDate, isEdit)}
         </AdDataItem>
         <AdDataItem>
           <p>일 희망 예상</p>
-          <span>{budget}</span>
+          {renderAdItemSpan("budget", editAdItem.budget, isEdit)}
         </AdDataItem>
         <AdDataItem>
           <p>광고 수익률</p>
-          <span>{roas}</span>
+          {renderAdItemSpan("roas", editAdItem.report.roas, isEdit)}
         </AdDataItem>
         <AdDataItem>
           <p>매출</p>
-          <span>{convValue}</span>
+          {renderAdItemSpan("convValue", editAdItem.report.convValue, isEdit)}
         </AdDataItem>
         <AdDataItem>
           <p>광고 비용</p>
-          <span>{cost}</span>
+          {renderAdItemSpan("cost", editAdItem.report.cost, isEdit)}
         </AdDataItem>
       </AdDataList>
-      <Line></Line>
-      <EditButton>수정하기</EditButton>
+      {isEdit ? (
+        <>
+          <EditButton type="submit">저장</EditButton>
+          <EditButton onClick={handleCancel}>취소</EditButton>
+        </>
+      ) : (
+        <>
+          <Line></Line>
+          <EditButton onClick={handleEdit}>수정하기</EditButton>
+        </>
+      )}
     </AdItemContainer>
   );
 }
@@ -50,7 +69,7 @@ AdItem.propTypes = {
   adItem: PropTypes.object
 };
 
-const AdItemContainer = styled.div`
+const AdItemContainer = styled.form`
   width: 305px;
   height: 420px;
   padding: 40px 20px 0px 20px;
@@ -96,6 +115,21 @@ const AdDataItem = styled.li`
     line-height: 14px;
     color: ${(props) => props.theme.color.grey_800};
   }
+
+  .react-datepicker-wrapper {
+    position: absolute;
+    left: 123px;
+    width: 100px;
+    height: 40px;
+  }
+
+  .react-datepicker__input-container {
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+  }
 `;
 
 const Line = styled.div`
@@ -103,6 +137,7 @@ const Line = styled.div`
   width: 265px;
   background-color: ${({ theme }) => theme.color.grey_50};
 `;
+
 const EditButton = styled.button`
   margin-top: 15px;
   width: 92px;
@@ -115,4 +150,5 @@ const EditButton = styled.button`
   border: 1px solid ${({ theme }) => theme.color.grey_100};
   border-radius: 10px;
   cursor: pointer;
+  margin-right: 10px;
 `;
