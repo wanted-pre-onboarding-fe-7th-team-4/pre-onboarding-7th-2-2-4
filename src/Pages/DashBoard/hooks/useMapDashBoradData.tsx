@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { Daily } from "@/lib/state/interface";
+import { IDaily } from "@/lib/state/interface";
 
 interface DashBoardData {
   name: string;
@@ -10,14 +10,14 @@ interface DashBoardData {
 }
 
 interface PickDateDailyAtom {
-  selectData: Daily;
-  beforeThreeDay: Daily;
+  selectData: IDaily[];
+  beforeThreeDay: IDaily[];
 }
 
 const useMapDashBoardData = () => {
   const [dashBoard, setDashBoard] = useState<DashBoardData[]>();
 
-  const roas = (daily: Daily["report"]["daily"]) => {
+  const roas = (daily: IDaily[]) => {
     return Math.floor(
       daily
         .map((value) => value.roas)
@@ -25,7 +25,7 @@ const useMapDashBoardData = () => {
     );
   };
 
-  const cost = (daily: Daily["report"]["daily"]) => {
+  const cost = (daily: IDaily[]) => {
     return Math.floor(
       daily
         .map((value) => value.cost)
@@ -33,7 +33,7 @@ const useMapDashBoardData = () => {
     );
   };
 
-  const imp = (daily: Daily["report"]["daily"]) => {
+  const imp = (daily: IDaily[]) => {
     return Math.floor(
       daily
         .map((value) => value.imp)
@@ -41,20 +41,20 @@ const useMapDashBoardData = () => {
     );
   };
 
-  const click = (daily: Daily["report"]["daily"]) => {
+  const click = (daily: IDaily[]) => {
     const clickValue = daily
       .map((value) => value.click)
       .reduce((pre, current) => pre + current, 0);
     return clickValue < 10000 ? clickValue : clickValue / 10000;
   };
 
-  const conv = (daily: Daily["report"]["daily"]) => {
+  const conv = (daily: IDaily[]) => {
     return daily
       .map((value) => value.conv)
       .reduce((pre, current) => pre + current, 0);
   };
 
-  const convValue = (daily: Daily["report"]["daily"]) => {
+  const convValue = (daily: IDaily[]) => {
     return (
       daily
         .map((value) => value.convValue)
@@ -63,18 +63,18 @@ const useMapDashBoardData = () => {
   };
 
   const mappingDailyData = (daily: PickDateDailyAtom) => {
-    const roasWeek = roas(daily.selectData.report.daily);
-    const roasBefore = roas(daily.beforeThreeDay.report.daily);
-    const costWeek = cost(daily.selectData.report.daily);
-    const costBefore = cost(daily.beforeThreeDay.report.daily);
-    const impWeek = imp(daily.selectData.report.daily);
-    const impBefore = imp(daily.beforeThreeDay.report.daily);
-    const clickWeek = click(daily.selectData.report.daily);
-    const clickBefore = click(daily.beforeThreeDay.report.daily);
-    const convWeek = conv(daily.selectData.report.daily);
-    const convBefore = conv(daily.beforeThreeDay.report.daily);
-    const convValueWeek = convValue(daily.selectData.report.daily);
-    const convValueBefore = convValue(daily.beforeThreeDay.report.daily);
+    const roasWeek = roas(daily.selectData);
+    const roasBefore = roas(daily.beforeThreeDay);
+    const costWeek = cost(daily.selectData);
+    const costBefore = cost(daily.beforeThreeDay);
+    const impWeek = imp(daily.selectData);
+    const impBefore = imp(daily.beforeThreeDay);
+    const clickWeek = click(daily.selectData);
+    const clickBefore = click(daily.beforeThreeDay);
+    const convWeek = conv(daily.selectData);
+    const convBefore = conv(daily.beforeThreeDay);
+    const convValueWeek = convValue(daily.selectData);
+    const convValueBefore = convValue(daily.beforeThreeDay);
 
     const newDataSet = [
       {

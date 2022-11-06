@@ -1,11 +1,21 @@
-import React from "react";
+import useMapDashBoardData from "@/Pages/DashBoard/hooks/useMapDashBoradData";
+import React, { useEffect } from "react";
 import styled from "styled-components";
-import { useRecoilValue } from "recoil";
-import { dailyAtom } from "@/lib/state/daily";
+import useDashAdData from "../../Pages/DashBoard/hooks/useDashAdData";
 
 const InfoCardList = () => {
-  const newDaily = useRecoilValue(dailyAtom);
-  console.log(newDaily);
+  const { currentList, prevList } = useDashAdData();
+  const { dashBoard, mappingDailyData } = useMapDashBoardData();
+
+  useEffect(() => {
+    if (currentList && prevList) {
+      const data = { selectData: currentList, beforeThreeDay: prevList };
+      mappingDailyData(data);
+    }
+  }, [currentList, prevList]);
+
+  console.log(dashBoard, currentList);
+
   return <Cotainer>InfoCardList</Cotainer>;
 };
 

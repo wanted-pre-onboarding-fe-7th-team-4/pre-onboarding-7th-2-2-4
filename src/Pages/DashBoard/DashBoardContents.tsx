@@ -3,7 +3,6 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import Chart from "react-apexcharts";
 import useGetDaily from "./hooks/useGetDaily";
-import useMapDashBoardData from "./hooks/useMapDashBoradData";
 
 import useControlledSelectButton from "./hooks/useControlledSelectButton";
 import useMapGraphData from "./hooks/useMapGraphData";
@@ -19,7 +18,6 @@ const DashBoardContents = () => {
   const [startDate, endDate] = date;
   const [newDaily, setNewDaily] = useRecoilState(dailyAtom);
   const { daily, isLoading, isSuccess } = useGetDaily();
-  const { dashBoard, mappingDailyData } = useMapDashBoardData(); //
   const { chartState, mappingCategories, mappingSeries } = useMapGraphData();
   const {
     firstDataSortKey,
@@ -69,7 +67,6 @@ const DashBoardContents = () => {
 
   useEffect(() => {
     if (isSuccess && Object.keys(newDaily).length !== 0) {
-      mappingDailyData(newDaily);
       mappingCategories(newDaily.selectData);
     }
   }, [isSuccess, newDaily]);
@@ -92,22 +89,6 @@ const DashBoardContents = () => {
         ) : (
           <>
             <InfoCardList />
-            <ADInfoList>
-              {dashBoard?.map((value) => (
-                <ADInfoItem key={value.name}>
-                  <h5>{value.name}</h5>
-                  <div>
-                    <span>{value.value}</span>
-                  </div>
-                  <div>
-                    <span>{value.beforeThreeDayValue}</span>
-                  </div>
-                  <div>
-                    <span>{value.isDecrese}</span>
-                  </div>
-                </ADInfoItem>
-              ))}
-            </ADInfoList>
             <GraphContainer>
               <ChartDataSortButton
                 onChange={handleChartDataSort(setFirstDataSortKey)}
@@ -169,25 +150,6 @@ const DashBoardContainer = styled.div`
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.04);
   border-radius: 2rem;
 `;
-
-const ADInfoList = styled.ul`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2.2rem;
-  margin-bottom: 4.2rem;
-`;
-const ADInfoItem = styled.li`
-  h5 {
-    font-size: 1.2rem;
-    font-weight: 500;
-    color: ${(props) => props.theme.color.grey_300};
-    margin-bottom: 1rem;
-  }
-  padding: 1.8rem 4rem;
-  border: 0.5px solid ${(props) => props.theme.color.grey_50};
-  border-radius: 10px;
-`;
-
 const GraphContainer = styled.div``;
 
 const ChartDataSortButton = styled.select``;
