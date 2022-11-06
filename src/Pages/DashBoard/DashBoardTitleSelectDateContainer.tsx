@@ -1,59 +1,34 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import DashBoradSquer from "@/Components/Header/DashBoradSquer";
-import styled, { css } from "styled-components";
-import useContorlledDate from "./hooks/useContorlledDate";
-import { useSetRecoilState } from "recoil";
-import { dateAtom } from "@/lib/state/daily";
+import styled from "styled-components";
+import DateRangePicker from "@/Components/Button/DatePicker";
+// import useContorlledDate from "./hooks/useContorlledDate";
+import { useRecoilState } from "recoil";
+import { dateAtom } from "@/lib/state/date";
+// import useContorlledDate from "./hooks/useContorlledDate";
 
 const DashBoardTitleSelectDateContainer = () => {
-  const setDate = useSetRecoilState(dateAtom);
-  const [isDatePicker, setIsDatePicker] = useState(false);
+  // const { selectDate, setSelectDate } = useContorlledDate();
+  const [selectDate, setSelectDate] = useRecoilState(dateAtom);
+  const [startDate, endDate] = selectDate;
+
   const [isDatePickerInfoMessage, setIsDatePickerInfoMessage] = useState(false);
-  const { stringDate, selectDate, setSelectDate, year, month, date } =
-    useContorlledDate();
 
-  const handleDatePicker = () => {
-    setIsDatePicker((pre) => !pre);
+  const onChangeDate = (start: Date | null, end: Date | null) => {
+    setSelectDate([start, end]);
   };
-
-  useEffect(() => {
-    if (!selectDate) {
-      setDate(stringDate);
-      return;
-    }
-    setDate(selectDate);
-  }, [selectDate, stringDate]);
 
   return (
     <Container>
       <Title>대시보드</Title>
-      <div>
-        {!isDatePicker ? (
-          <DateSelectButton onClick={handleDatePicker}>
-            <span>{year}년 </span>
-            <span>{month}월 </span>
-            <span>{date}일</span>
-          </DateSelectButton>
-        ) : (
-          <DatePicker
-            onMouseEnter={() => setIsDatePickerInfoMessage(true)}
-            onMouseLeave={() => setIsDatePickerInfoMessage(false)}
-            isDatePickerInfoMessage={isDatePickerInfoMessage}
-          >
-            <label htmlFor="startDate">시작 날짜</label>
-            <input
-              id="startDate"
-              name="startDate"
-              type="date"
-              value={selectDate ? selectDate : stringDate}
-              onChange={(e) => {
-                setSelectDate(e.currentTarget.value);
-              }}
-            />
-            <button onClick={handleDatePicker}>제출</button>
-          </DatePicker>
-        )}
-      </div>
+      <DateRangePicker
+        startDate={startDate}
+        endDate={endDate}
+        onChangeDate={onChangeDate}
+        onMouseEnter={() => setIsDatePickerInfoMessage(true)}
+        onMouseLeave={() => setIsDatePickerInfoMessage(false)}
+        isDatePickerInfoMessage={isDatePickerInfoMessage}
+      />
     </Container>
   );
 };
@@ -69,31 +44,3 @@ const Title = styled.h1`
   font-size: 2.6rem;
   font-weight: 900;
 `;
-
-const DatePicker = styled.div<{ isDatePickerInfoMessage: boolean }>`
-  position: relative;
-
-  &::after {
-    ${({ isDatePickerInfoMessage, theme }) => {
-      if (isDatePickerInfoMessage) {
-        return css`
-          visibility: visible;
-          background-color: ${theme.color.bg_w};
-          padding: 0.8rem 0.4rem;
-          border-radius: 1rem; ;
-        `;
-      }
-      return css`
-        visibility: hidden;
-      `;
-    }}
-    position: absolute;
-    word-break: keep-all;
-    top: -5rem;
-    left: -5rem;
-
-    content: "시작 날짜를 입력하거나 달력 아이콘을 눌러 날짜를 선택해주세요.";
-  }
-`;
-
-const DateSelectButton = styled.button``;
