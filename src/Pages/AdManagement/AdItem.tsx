@@ -3,45 +3,60 @@ import { IAdItem } from "@/lib/state/interface";
 import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
+import useAdItemEdit from "./hooks/useAdItemEdit";
 
 interface Props {
   adItem: IAdItem;
 }
 export default function AdItem({ adItem }: Props) {
-  const { adType, title, budget, status, startDate, report } = adItem;
-  const { cost, convValue, roas } = report;
+  const { adType, title } = adItem;
+  const {
+    isEdit,
+    editAdItem,
+    handleEdit,
+    handleCancel,
+    handleSubmit,
+    renderAdItemSpan
+  } = useAdItemEdit(adItem);
   return (
-    <AdItemContainer>
+    <AdItemContainer onSubmit={handleSubmit}>
       <AdName>
         {adType === "web" ? "웹광고" : "앱광고"}_{title}
       </AdName>
       <AdDataList>
         <AdDataItem>
           <p>상태</p>
-          <span>{status === "active" ? "진행중" : "중단됨"}</span>
+          {renderAdItemSpan("status", editAdItem.status, isEdit, true)}
         </AdDataItem>
         <AdDataItem>
           <p>광고생성일</p>
-          <span>{startDate}</span>
+          {renderAdItemSpan("startDate", editAdItem.startDate, isEdit)}
         </AdDataItem>
         <AdDataItem>
           <p>일 희망 예상</p>
-          <span>{budget}</span>
+          {renderAdItemSpan("budget", editAdItem.budget, isEdit)}
         </AdDataItem>
         <AdDataItem>
           <p>광고 수익률</p>
-          <span>{roas}</span>
+          {renderAdItemSpan("roas", editAdItem.report.roas, isEdit)}
         </AdDataItem>
         <AdDataItem>
           <p>매출</p>
-          <span>{convValue}</span>
+          {renderAdItemSpan("convValue", editAdItem.report.convValue, isEdit)}
         </AdDataItem>
         <AdDataItem>
           <p>광고 비용</p>
-          <span>{cost}</span>
+          {renderAdItemSpan("cost", editAdItem.report.cost, isEdit)}
         </AdDataItem>
       </AdDataList>
-      <Button text="수정하기" />
+      {isEdit ? (
+        <>
+          <Button text="저장" type="submit" />
+          <Button text="취소" onClick={handleCancel} />
+        </>
+      ) : (
+        <Button text="수정하기" onClick={handleEdit} />
+      )}
     </AdItemContainer>
   );
 }
@@ -50,7 +65,7 @@ AdItem.propTypes = {
   adItem: PropTypes.object
 };
 
-const AdItemContainer = styled.div`
+const AdItemContainer = styled.form`
   width: 300px;
   height: 420px;
   padding: 40px 20px;
@@ -89,6 +104,20 @@ const AdDataItem = styled.li`
   span {
     position: absolute;
     left: 120px;
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 14px;
+    color: ${(props) => props.theme.color.grey_800};
+  }
+
+  input {
+    position: absolute;
+    left: 120px;
+    width: 100px;
+    height: 20px;
+    border: 1px solid ${(props) => props.theme.color.grey_100};
+    border-radius: 5px;
+    background-color: ${(props) => props.theme.color.bg_w};
     font-weight: 700;
     font-size: 12px;
     line-height: 14px;
