@@ -1,10 +1,19 @@
 import styled from "styled-components";
-import { DashBoardData } from "./hooks/useMapDashBoradData";
+import { useEffect } from "react";
+import useDashAdData from "./hooks/useDashAdData";
+import useMapDashBoardData from "./hooks/useMapDashBoradData";
 
-interface Props {
-  dashBoardData?: DashBoardData[];
-}
-const AdInfoList = ({ dashBoardData }: Props) => {
+const AdInfoList = () => {
+  const { currentList, prevList } = useDashAdData();
+  const { dashBoard: dashBoardData, mappingDailyData } = useMapDashBoardData();
+
+  useEffect(() => {
+    if (currentList && prevList) {
+      const data = { selectData: currentList, beforeThreeDay: prevList };
+      mappingDailyData(data);
+    }
+  }, [currentList, prevList]);
+
   return (
     <SummaryItemContainer>
       {dashBoardData !== undefined &&

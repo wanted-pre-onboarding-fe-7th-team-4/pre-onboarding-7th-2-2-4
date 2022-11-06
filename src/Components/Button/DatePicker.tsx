@@ -1,11 +1,9 @@
-import { dateAtom } from "@/lib/state/date";
 import { convertUTCTimeToCustomString } from "@/lib/utils/convertUTCTimeToCustomString";
 import ko from "date-fns/locale/ko";
 
 import { useCallback, useEffect, useState } from "react";
 import DatePicker, { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { useSetRecoilState } from "recoil";
 
 import styled, { css } from "styled-components";
 
@@ -29,7 +27,6 @@ const DateRangePicker = ({
   onChangeDate,
   ...props
 }: Props) => {
-  const setDate = useSetRecoilState(dateAtom);
   const [dateValue, setDateValue] = useState("");
   const [showCalendar, setShowCalendar] = useState(false);
 
@@ -45,15 +42,6 @@ const DateRangePicker = ({
     if (startDate && endDate) {
       const startDateString = convertUTCTimeToCustomString(startDate, "ko");
       const endDateString = convertUTCTimeToCustomString(endDate, "ko");
-      const startDateStringForFilteringData = convertUTCTimeToCustomString(
-        startDate,
-        "yyyy-mm-dd"
-      );
-      const endDateStringForFilteringData = convertUTCTimeToCustomString(
-        endDate,
-        "yyyy-mm-dd"
-      );
-      setDate([startDateStringForFilteringData, endDateStringForFilteringData]);
       setDateValue(`${startDateString}~${endDateString}`);
     }
   }, [endDate, startDate]);

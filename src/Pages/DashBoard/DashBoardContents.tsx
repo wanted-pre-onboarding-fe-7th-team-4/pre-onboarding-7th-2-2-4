@@ -3,7 +3,6 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import Chart from "react-apexcharts";
 import useGetDaily from "./hooks/useGetDaily";
-import useMapDashBoardData from "./hooks/useMapDashBoradData";
 
 import useControlledSelectButton from "./hooks/useControlledSelectButton";
 import useMapGraphData from "./hooks/useMapGraphData";
@@ -15,13 +14,13 @@ import { Daily } from "@/lib/state/interface";
 import AdInfoList from "./AdInfoList";
 import { ReactComponent as BlueDot } from "../../Components/assets/BlueDot.svg";
 import { ReactComponent as GreenDot } from "../../Components/assets/GreenDot.svg";
+import { convertUTCTimeToCustomString } from "@/lib/utils/convertUTCTimeToCustomString";
 
 const DashBoardContents = () => {
   const date = useRecoilValue(dateAtom);
   const [startDate, endDate] = date;
   const [newDaily, setNewDaily] = useRecoilState(dailyAtom);
   const { daily, isLoading, isSuccess } = useGetDaily();
-  const { dashBoard, mappingDailyData } = useMapDashBoardData();
   const { chartState, mappingCategories, mappingSeries } = useMapGraphData();
 
   const {
@@ -35,10 +34,12 @@ const DashBoardContents = () => {
   useEffect(() => {
     if (daily && date && startDate && endDate) {
       const findStartDateIndex = daily.report.daily.findIndex(
-        (value) => value.date === startDate
+        (value) =>
+          value.date === convertUTCTimeToCustomString(startDate, "yyyy-mm-dd")
       );
       const findEndDateIndex = daily.report.daily.findIndex(
-        (value) => value.date === endDate
+        (value) =>
+          value.date === convertUTCTimeToCustomString(endDate, "yyyy-mm-dd")
       );
 
       let filterDateForBeforeThreeDays: Daily["report"]["daily"];
@@ -72,7 +73,6 @@ const DashBoardContents = () => {
 
   useEffect(() => {
     if (isSuccess && Object.keys(newDaily).length !== 0) {
-      mappingDailyData(newDaily);
       mappingCategories(newDaily.selectData);
     }
   }, [isSuccess, newDaily]);
@@ -94,7 +94,7 @@ const DashBoardContents = () => {
           <div>데이터를 가져오는 중입니다.</div>
         ) : (
           <>
-            <AdInfoList dashBoardData={dashBoard} />
+            <AdInfoList />
             <GraphContainer>
               <SelectContainer>
                 <LeftContainer>
