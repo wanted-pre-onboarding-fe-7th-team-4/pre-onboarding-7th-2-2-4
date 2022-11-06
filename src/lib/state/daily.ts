@@ -1,9 +1,14 @@
 import { atom } from "recoil";
 import { Daily } from "./interface";
 
+interface pickDateDailyAtom {
+  week: Daily;
+  beforeThreeDay: Daily;
+}
+
 export const dailyAtom = atom({
   key: "dailyAtom",
-  default: <Daily>{}
+  default: <pickDateDailyAtom>{}
 });
 
 export const dateAtom = atom({

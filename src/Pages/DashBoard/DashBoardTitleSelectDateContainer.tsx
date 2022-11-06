@@ -6,9 +6,9 @@ import { useSetRecoilState } from "recoil";
 import { dateAtom } from "@/lib/state/daily";
 
 const DashBoardTitleSelectDateContainer = () => {
+  const setDate = useSetRecoilState(dateAtom);
   const [isDatePicker, setIsDatePicker] = useState(false);
   const [isDatePickerInfoMessage, setIsDatePickerInfoMessage] = useState(false);
-  const setDate = useSetRecoilState(dateAtom);
   const { stringDate, selectDate, setSelectDate, year, month, date } =
     useContorlledDate();
 

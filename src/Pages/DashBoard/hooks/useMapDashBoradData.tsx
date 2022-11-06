@@ -5,67 +5,114 @@ import { Daily } from "@/lib/state/interface";
 interface DashBoardData {
   name: string;
   value: string;
+  beforeThreeDayValue: string;
+  isDecrese: boolean;
+}
+
+interface PickDateDailyAtom {
+  week: Daily;
+  beforeThreeDay: Daily;
 }
 
 const useMapDashBoardData = () => {
   const [dashBoard, setDashBoard] = useState<DashBoardData[]>();
 
-  const mappingDailyData = (daily: Daily) => {
-    const roas = Math.floor(
-      daily.report.daily
+  const roas = (daily: Daily["report"]["daily"]) => {
+    return Math.floor(
+      daily
         .map((value) => value.roas)
         .reduce((pre, current) => pre + current, 0)
     );
-    const cost = Math.floor(
-      daily.report.daily
+  };
+
+  const cost = (daily: Daily["report"]["daily"]) => {
+    return Math.floor(
+      daily
         .map((value) => value.cost)
         .reduce((pre, current) => pre + current, 0) / 10000
-    ).toLocaleString("ko-KR");
+    );
+  };
 
-    const imp = Math.floor(
-      daily.report.daily
+  const imp = (daily: Daily["report"]["daily"]) => {
+    return Math.floor(
+      daily
         .map((value) => value.imp)
         .reduce((pre, current) => pre + current, 0) / 10000
-    ).toLocaleString("ko-KR");
-    const click = (
-      daily.report.daily
+    );
+  };
+
+  const click = (daily: Daily["report"]["daily"]) => {
+    return (
+      daily
         .map((value) => value.click)
         .reduce((pre, current) => pre + current, 0) / 10000
-    ).toFixed(1);
-    const conv = daily.report.daily
+    );
+  };
+
+  const conv = (daily: Daily["report"]["daily"]) => {
+    return daily
       .map((value) => value.conv)
-      .reduce((pre, current) => pre + current, 0)
-      .toLocaleString("ko-KR");
-    const convValue = (
-      daily.report.daily
+      .reduce((pre, current) => pre + current, 0);
+  };
+
+  const convValue = (daily: Daily["report"]["daily"]) => {
+    return (
+      daily
         .map((value) => value.convValue)
         .reduce((pre, current) => pre + current, 0) / 10000000
-    ).toFixed(1);
+    );
+  };
+
+  const mappingDailyData = (daily: PickDateDailyAtom) => {
+    const roasWeek = roas(daily.week.report.daily);
+    const roasBefore = roas(daily.beforeThreeDay.report.daily);
+    const costWeek = cost(daily.week.report.daily);
+    const costBefore = cost(daily.beforeThreeDay.report.daily);
+    const impWeek = imp(daily.week.report.daily);
+    const impBefore = imp(daily.beforeThreeDay.report.daily);
+    const clickWeek = click(daily.week.report.daily);
+    const clickBefore = click(daily.beforeThreeDay.report.daily);
+    const convWeek = conv(daily.week.report.daily);
+    const convBefore = conv(daily.beforeThreeDay.report.daily);
+    const convValueWeek = convValue(daily.week.report.daily);
+    const convValueBefore = convValue(daily.beforeThreeDay.report.daily);
 
     const newDataSet = [
       {
         name: "ROAS",
-        value: `${roas}%`
+        value: `${roasWeek}%`,
+        beforeThreeDayValue: `${roasBefore}%`,
+        isDecrese: roasWeek - roasBefore > 0
       },
       {
         name: "광고비",
-        value: `${cost}만 원`
+        value: `${costWeek}만 원`,
+        beforeThreeDayValue: `${costBefore}만 원`,
+        isDecrese: costWeek - costBefore > 0
       },
       {
         name: "노출 수",
-        value: `${imp}만 회`
+        value: `${impWeek}만 회`,
+        beforeThreeDayValue: `${impBefore}만 회`,
+        isDecrese: impWeek - impBefore > 0
       },
       {
         name: "클릭수",
-        value: `${click}만 회`
+        value: `${clickWeek}만 회`,
+        beforeThreeDayValue: `${clickBefore}만 회`,
+        isDecrese: clickWeek - clickBefore > 0
       },
       {
         name: "전환 수",
-        value: `${conv}회`
+        value: `${convWeek}회`,
+        beforeThreeDayValue: `${convBefore}회`,
+        isDecrese: convWeek - convBefore > 0
       },
       {
         name: "매출",
-        value: `${convValue}억 원`
+        value: `${convValueWeek}억 원`,
+        beforeThreeDayValue: `${convValueBefore}억 원`,
+        isDecrese: convValueWeek - convValueBefore > 0
       }
     ];
 

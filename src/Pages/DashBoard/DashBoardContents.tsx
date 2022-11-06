@@ -10,12 +10,12 @@ import useMapGraphData from "./hooks/useMapGraphData";
 import { DATA_KEYS } from "@/lib/constant/constant";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { dailyAtom, dateAtom } from "@/lib/state/daily";
+import { Daily } from "@/lib/state/interface";
 
 const DashBoardContents = () => {
   const date = useRecoilValue(dateAtom);
   const [newDaily, setNewDaily] = useRecoilState(dailyAtom);
   const { daily, isLoading, isSuccess } = useGetDaily();
-
   const { dashBoard, mappingDailyData } = useMapDashBoardData();
   const { chartState, mappingCategories, mappingSeries } = useMapGraphData();
   const {
@@ -31,25 +31,44 @@ const DashBoardContents = () => {
       const findDataIndex = daily.report.daily.findIndex(
         (value) => value.date === date
       );
+      let filterDateForBeforeThreeDays: Daily["report"]["daily"];
+      if (findDataIndex - 3 < 0) {
+        filterDateForBeforeThreeDays = daily.report.daily.slice(findDataIndex);
+      } else {
+        filterDateForBeforeThreeDays = daily.report.daily.slice(
+          findDataIndex - 3,
+          findDataIndex
+        );
+      }
+
       const filterDateForSevenDays = daily.report.daily.slice(
         findDataIndex,
         findDataIndex + 7
       );
 
-      setNewDaily({ report: { daily: filterDateForSevenDays } });
+      setNewDaily((pre) => ({
+        ...pre,
+        week: { report: { daily: filterDateForSevenDays } }
+      }));
+      setNewDaily((pre) => ({
+        week: pre.week,
+        beforeThreeDay: {
+          report: { daily: filterDateForBeforeThreeDays }
+        }
+      }));
     }
   }, [daily, date]);
 
   useEffect(() => {
     if (isSuccess && Object.keys(newDaily).length !== 0) {
       mappingDailyData(newDaily);
-      mappingCategories(newDaily);
+      mappingCategories(newDaily.week);
     }
   }, [isSuccess, newDaily]);
 
   useEffect(() => {
     if (isSuccess && Object.keys(newDaily).length !== 0) {
-      mappingSeries(newDaily, firstDataSortKey, secondDataSortKey);
+      mappingSeries(newDaily.week, firstDataSortKey, secondDataSortKey);
     }
   }, [newDaily, isSuccess, firstDataSortKey, secondDataSortKey]);
 
@@ -69,7 +88,13 @@ const DashBoardContents = () => {
                 <ADInfoItem key={value.name}>
                   <h5>{value.name}</h5>
                   <div>
-                    <p>{value.value}</p>
+                    <span>{value.value}</span>
+                  </div>
+                  <div>
+                    <span>{value.beforeThreeDayValue}</span>
+                  </div>
+                  <div>
+                    <span>{value.isDecrese}</span>
                   </div>
                 </ADInfoItem>
               ))}
