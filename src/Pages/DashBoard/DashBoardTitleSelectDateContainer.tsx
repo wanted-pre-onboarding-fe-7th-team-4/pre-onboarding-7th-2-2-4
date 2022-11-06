@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import DashBoradSquer from "@/Components/Header/DashBoradSquer";
 import styled from "styled-components";
 import DateRangePicker from "@/Components/Button/DatePicker";
-import useContorlledDate from "./hooks/useContorlledDate";
+// import useContorlledDate from "./hooks/useContorlledDate";
+import { useRecoilState } from "recoil";
+import { dateAtom } from "@/lib/state/date";
+// import useContorlledDate from "./hooks/useContorlledDate";
 
 const DashBoardTitleSelectDateContainer = () => {
-  const { selectDate, setSelectDate } = useContorlledDate();
+  // const { selectDate, setSelectDate } = useContorlledDate();
+  const [selectDate, setSelectDate] = useRecoilState(dateAtom);
   const [startDate, endDate] = selectDate;
 
   const [isDatePickerInfoMessage, setIsDatePickerInfoMessage] = useState(false);

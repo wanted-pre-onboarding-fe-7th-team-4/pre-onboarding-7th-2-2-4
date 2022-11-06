@@ -5,6 +5,7 @@ import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
 import useGetDaily from "./useGetDaily";
 import { IDaily } from "../../../lib/state/interface";
+import { convertUTCTimeToCustomString } from "@/lib/utils/convertUTCTimeToCustomString";
 dayjs.extend(isBetween);
 
 const useDashAdData = () => {
@@ -26,8 +27,13 @@ const useDashAdData = () => {
     getPrevDataList();
   }, [startDate, endDate]);
   const getCurrentDataList = () => {
-    const filterd = getListByPeriod(startDate, endDate);
-    setCurrentList(filterd);
+    if (startDate && endDate) {
+      const filterd = getListByPeriod(
+        convertUTCTimeToCustomString(startDate, "yyyy-mm-dd"),
+        convertUTCTimeToCustomString(endDate, "yyyy-mm-dd")
+      );
+      setCurrentList(filterd);
+    }
   };
 
   const getPrevDataList = () => {

@@ -14,6 +14,7 @@ import { Daily } from "@/lib/state/interface";
 import AdInfoList from "./AdInfoList";
 import { ReactComponent as BlueDot } from "../../Components/assets/BlueDot.svg";
 import { ReactComponent as GreenDot } from "../../Components/assets/GreenDot.svg";
+import { convertUTCTimeToCustomString } from "@/lib/utils/convertUTCTimeToCustomString";
 
 const DashBoardContents = () => {
   const date = useRecoilValue(dateAtom);
@@ -33,10 +34,12 @@ const DashBoardContents = () => {
   useEffect(() => {
     if (daily && date && startDate && endDate) {
       const findStartDateIndex = daily.report.daily.findIndex(
-        (value) => value.date === startDate
+        (value) =>
+          value.date === convertUTCTimeToCustomString(startDate, "yyyy-mm-dd")
       );
       const findEndDateIndex = daily.report.daily.findIndex(
-        (value) => value.date === endDate
+        (value) =>
+          value.date === convertUTCTimeToCustomString(endDate, "yyyy-mm-dd")
       );
 
       let filterDateForBeforeThreeDays: Daily["report"]["daily"];
