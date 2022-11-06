@@ -11,11 +11,9 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { dailyAtom } from "@/lib/state/daily";
 import { dateAtom } from "@/lib/state/date";
 import { Daily } from "@/lib/state/interface";
-import InfoCardList from "@/Components/DashBoard/InfoCardList";
 import AdInfoList from "./AdInfoList";
 import { ReactComponent as BlueDot } from "../../Components/assets/BlueDot.svg";
 import { ReactComponent as GreenDot } from "../../Components/assets/GreenDot.svg";
-
 
 const DashBoardContents = () => {
   const date = useRecoilValue(dateAtom);
@@ -93,8 +91,7 @@ const DashBoardContents = () => {
           <div>데이터를 가져오는 중입니다.</div>
         ) : (
           <>
-            <InfoCardList />
-            <AdInfoList dashBoardData={dashBoard} />
+            <AdInfoList />
             <GraphContainer>
               <SelectContainer>
                 <LeftContainer>

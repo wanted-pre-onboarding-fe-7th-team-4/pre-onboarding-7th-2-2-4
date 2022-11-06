@@ -1,5 +1,5 @@
 import { useRecoilValue } from "recoil";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { dateAtom } from "@/lib/state/date";
 import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
@@ -21,7 +21,10 @@ const useDashAdData = () => {
     );
     return dataListByPeriod;
   };
-
+  useEffect(() => {
+    getCurrentDataList();
+    getPrevDataList();
+  }, [startDate, endDate]);
   const getCurrentDataList = () => {
     const filterd = getListByPeriod(startDate, endDate);
     setCurrentList(filterd);
