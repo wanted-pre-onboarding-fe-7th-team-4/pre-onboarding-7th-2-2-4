@@ -10,7 +10,7 @@ interface DashBoardData {
 }
 
 interface PickDateDailyAtom {
-  week: Daily;
+  selectData: Daily;
   beforeThreeDay: Daily;
 }
 
@@ -63,17 +63,17 @@ const useMapDashBoardData = () => {
   };
 
   const mappingDailyData = (daily: PickDateDailyAtom) => {
-    const roasWeek = roas(daily.week.report.daily);
+    const roasWeek = roas(daily.selectData.report.daily);
     const roasBefore = roas(daily.beforeThreeDay.report.daily);
-    const costWeek = cost(daily.week.report.daily);
+    const costWeek = cost(daily.selectData.report.daily);
     const costBefore = cost(daily.beforeThreeDay.report.daily);
-    const impWeek = imp(daily.week.report.daily);
+    const impWeek = imp(daily.selectData.report.daily);
     const impBefore = imp(daily.beforeThreeDay.report.daily);
-    const clickWeek = click(daily.week.report.daily);
+    const clickWeek = click(daily.selectData.report.daily);
     const clickBefore = click(daily.beforeThreeDay.report.daily);
-    const convWeek = conv(daily.week.report.daily);
+    const convWeek = conv(daily.selectData.report.daily);
     const convBefore = conv(daily.beforeThreeDay.report.daily);
-    const convValueWeek = convValue(daily.week.report.daily);
+    const convValueWeek = convValue(daily.selectData.report.daily);
     const convValueBefore = convValue(daily.beforeThreeDay.report.daily);
 
     const newDataSet = [
