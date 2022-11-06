@@ -42,11 +42,10 @@ const useMapDashBoardData = () => {
   };
 
   const click = (daily: Daily["report"]["daily"]) => {
-    return (
-      daily
-        .map((value) => value.click)
-        .reduce((pre, current) => pre + current, 0) / 10000
-    );
+    const clickValue = daily
+      .map((value) => value.click)
+      .reduce((pre, current) => pre + current, 0);
+    return clickValue < 10000 ? clickValue : clickValue / 10000;
   };
 
   const conv = (daily: Daily["report"]["daily"]) => {
@@ -81,38 +80,49 @@ const useMapDashBoardData = () => {
       {
         name: "ROAS",
         value: `${roasWeek}%`,
-        beforeThreeDayValue: `${roasBefore}%`,
-        isDecrese: roasWeek - roasBefore > 0
+        beforeThreeDayValue: `${Math.abs(Math.floor(roasBefore - roasWeek))}%`,
+        isDecrese: roasBefore - roasWeek > 0
       },
       {
         name: "광고비",
-        value: `${costWeek}만 원`,
-        beforeThreeDayValue: `${costBefore}만 원`,
-        isDecrese: costWeek - costBefore > 0
+        value: `${costWeek.toLocaleString("ko-KR")} 만 원`,
+        beforeThreeDayValue: `${Math.abs(costBefore - costWeek).toLocaleString(
+          "ko-KR"
+        )} 만 원`,
+        isDecrese: costBefore - costWeek > 0
       },
       {
         name: "노출 수",
-        value: `${impWeek}만 회`,
-        beforeThreeDayValue: `${impBefore}만 회`,
-        isDecrese: impWeek - impBefore > 0
+        value: `${impWeek} 만 회`,
+        beforeThreeDayValue: `${Math.abs(impBefore - impWeek).toLocaleString(
+          "ko-KR"
+        )} 만 회`,
+        isDecrese: impBefore - impWeek > 0
       },
       {
         name: "클릭수",
-        value: `${clickWeek}만 회`,
-        beforeThreeDayValue: `${clickBefore}만 회`,
-        isDecrese: clickWeek - clickBefore > 0
+        value: clickWeek < 10000 ? `${clickWeek} 회` : `${clickWeek} 만 회`,
+        beforeThreeDayValue:
+          clickBefore - clickWeek < 10000
+            ? `${Math.abs(clickBefore - clickWeek).toFixed(1)} 회`
+            : `${Math.abs(clickBefore - clickWeek).toFixed(1)} 만 회`,
+        isDecrese: clickBefore - clickWeek > 0
       },
       {
         name: "전환 수",
-        value: `${convWeek}회`,
-        beforeThreeDayValue: `${convBefore}회`,
-        isDecrese: convWeek - convBefore > 0
+        value: `${convWeek} 회`,
+        beforeThreeDayValue: `${Math.abs(convBefore - convWeek).toLocaleString(
+          "ko-KR"
+        )} 회`,
+        isDecrese: convBefore - convWeek > 0
       },
       {
         name: "매출",
-        value: `${convValueWeek}억 원`,
-        beforeThreeDayValue: `${convValueBefore}억 원`,
-        isDecrese: convValueWeek - convValueBefore > 0
+        value: `${convValueWeek.toFixed(1)} 억 원`,
+        beforeThreeDayValue: `${Math.abs(
+          convValueBefore - convValueWeek
+        ).toFixed(1)} 억 원`,
+        isDecrese: convValueBefore - convValueWeek > 0
       }
     ];
 
