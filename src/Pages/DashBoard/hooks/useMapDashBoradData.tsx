@@ -18,10 +18,11 @@ const useMapDashBoardData = () => {
   const [dashBoard, setDashBoard] = useState<DashBoardData[]>();
 
   const roas = (daily: IDaily[]) => {
+    const valueLength = daily.length;
     return Math.floor(
       daily
         .map((value) => value.roas)
-        .reduce((pre, current) => pre + current / 100, 0)
+        .reduce((pre, current) => pre + current / valueLength, 0)
     );
   };
 
