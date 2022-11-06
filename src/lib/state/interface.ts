@@ -29,7 +29,6 @@ export type DailyKeySet =
   | "cpa"
   | "roas";
 
-
 export interface IDaily {
   imp: number;
   click: number;
@@ -42,7 +41,7 @@ export interface IDaily {
   cpa: number;
   roas: number;
   date: string;
-
+}
 export interface IAdItem {
   id: number;
   adType: "web" | "app";
