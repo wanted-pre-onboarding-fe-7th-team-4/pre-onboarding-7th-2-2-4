@@ -79,6 +79,10 @@ h1,h2,h3,h4,h5,h6,p{
     word-break: keep-all;
 }
 
+select{
+    outline: none;
+    border: none;
+}
 img,image,svg {
     vertical-align:middle ;
 }

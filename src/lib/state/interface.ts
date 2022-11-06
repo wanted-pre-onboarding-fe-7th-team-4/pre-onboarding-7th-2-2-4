@@ -17,6 +17,7 @@ export interface Daily {
 }
 
 export type DailyKeySet =
+  | "opt"
   | "imp"
   | "click"
   | "cost"
