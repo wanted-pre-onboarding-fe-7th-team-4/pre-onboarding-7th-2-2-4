@@ -22,3 +22,8 @@ export const convertUTCTimeToCustomString = (
 
   return `${year}년 ${month}월 ${date}일`;
 };
+
+export const convertStringToCustomString = (string: string) => {
+  const date = new Date(string);
+  return convertUTCTimeToCustomString(date, "yyyy-mm-dd");
+};
