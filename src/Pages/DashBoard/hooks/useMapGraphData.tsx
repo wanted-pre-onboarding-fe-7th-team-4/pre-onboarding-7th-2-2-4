@@ -14,8 +14,34 @@ const state: ChartState = {
     },
     xaxis: {
       categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999]
-    }
+    },
+    yaxis: [
+      {
+        axisTicks: {
+          show: true
+        },
+        axisBorder: {
+          show: true,
+          color: "#4FADF7"
+        }
+      },
+      {
+        opposite: true,
+        axisTicks: {
+          show: true
+        },
+        axisBorder: {
+          show: true,
+          color: "#85DA47"
+        }
+      }
+    ],
+    dataLabels: {
+      enabled: false
+    },
+    colors: ["#4FADF7", "#85DA47"]
   },
+
   series: [
     {
       name: "series-1",

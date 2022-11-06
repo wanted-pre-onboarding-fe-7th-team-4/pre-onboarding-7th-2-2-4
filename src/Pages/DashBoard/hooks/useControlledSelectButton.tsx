@@ -14,6 +14,7 @@ const useControlledSelectButton = () => {
   useEffect(() => {
     if (firstDataSortKey === secondDataSortKey) {
       const [first] = DATA_KEYS.filter((value) => value !== firstDataSortKey);
+
       setSecondDataSortKey(first);
     }
   }, [firstDataSortKey, secondDataSortKey]);
