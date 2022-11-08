@@ -9,7 +9,7 @@
 | 이름         | github                                                  |
 | ------------ | ------------------------------------------------------- |
 | 임거정(팀장) | https://github.com/dgd03146/pre-onboarding-7th-2-2-4    |
-| 고현수       | https://github.com/rieulp/madupXwanted/deployments      |
+| 고현수       | https://github.com/movie42/pre-onboarding-7th-2-2-4     |
 | 김하영       | https://github.com/Fibo4487/pre-onboarding-7th-2-2-4    |
 | 박라영       | https://github.com/rieulp/madupXwanted                  |
 | 박호준       | https://github.com/ohtmm/pre-onboarding-7th-2-2-4       |
